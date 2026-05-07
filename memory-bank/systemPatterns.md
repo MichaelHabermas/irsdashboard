@@ -45,13 +45,14 @@ Each module has a single responsibility:
 
 ## Key Patterns / Conventions
 
-1. **Validation at the boundary.** Every controller method validates input via Zod + class-validator. Internal services trust their inputs.
-2. **Feature attribution travels with every prediction.** API never returns just a score.
-3. **RAG explanation is conditional.** Only attached when `risk > threshold`, to keep latency tight on low-risk paths.
-4. **Fairness metrics on every response.** Demographic parity + equal opportunity are computed at predict time and returned.
-5. **FedRAMP-style comments.** Every file touching auth, validation, or data persistence has a header comment noting privacy/data-handling constraints.
-6. **Conventional commits.** `feat:`, `fix:`, `refactor:`, `test:`, `docs:`. Atomic, tested, revertible.
-7. **Class-based dark mode** wired in, but only light mode exposed in UI (per locked decision).
+1. **`/api` global prefix.** `main.ts` calls `setGlobalPrefix('api')`; healthchecks and probes must hit `/api`-prefixed routes (e.g., demo `GET /api`, synthetic **`GET /api/synthetic/generate`**).
+2. **Validation at the boundary.** Every controller method validates input via Zod (`@irs/shared` at HTTP edges where applicable). Internal services trust their inputs.
+3. **Feature attribution travels with every prediction.** API never returns just a score.
+4. **RAG explanation is conditional.** Only attached when `risk > threshold`, to keep latency tight on low-risk paths.
+5. **Fairness metrics on every response.** Demographic parity + equal opportunity are computed at predict time and returned.
+6. **FedRAMP-style comments.** Every file touching auth, validation, or data persistence has a header comment noting privacy/data-handling constraints.
+7. **Conventional commits.** `feat:`, `fix:`, `refactor:`, `test:`, `docs:`. Atomic, tested, revertible.
+8. **Class-based dark mode** wired in, but only light mode exposed in UI (per locked decision).
 
 ## Data Flow (Single Prediction)
 

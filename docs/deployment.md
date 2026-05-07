@@ -64,6 +64,7 @@ Every push to `main` automatically triggers a new deploy for both services.
 - Cold start delay → Normal on free tier
 - RAG not working → Check `OPENROUTER_API_KEY`
 - CORS issues → Ensure backend allows the frontend URL
+- Compose health failures → Backend liveness relies on **`GET /api`** (global prefix); update custom probes accordingly if you fork routing
 
 See `README.md` for local Docker instructions.
 

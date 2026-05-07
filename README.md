@@ -30,11 +30,11 @@ Authoritative module narrative: [`memory-bank/systemPatterns.md`](memory-bank/sy
 
 ## Monorepo layout (pnpm)
 
-| Path        | Package         | Role                                              |
-| ----------- | --------------- | ------------------------------------------------- |
-| `backend/`  | `@irs/backend`  | NestJS 11 scaffold + placeholder domain modules   |
-| `frontend/` | `@irs/frontend` | React 19 + Vite + Tailwind v4 + shadcn/ui + Query |
-| `shared/`   | `@irs/shared`   | Shared Zod schemas / types (CJS emit for Node)    |
+| Path        | Package         | Role                                                                                                  |
+| ----------- | --------------- | ----------------------------------------------------------------------------------------------------- |
+| `backend/`  | `@irs/backend`  | NestJS 11 + synthetic generator + fairness metadata + REST routes (Evolution beyond Epic 1 scaffold.) |
+| `frontend/` | `@irs/frontend` | React 19 + Vite + Tailwind v4 + shadcn/ui + Query                                                     |
+| `shared/`   | `@irs/shared`   | Shared Zod schemas / types (CJS emit for Node)                                                        |
 
 Root tooling: ESLint 9 (flat), Prettier 3, strict TypeScript base config.
 
@@ -60,6 +60,17 @@ pnpm --filter @irs/frontend run dev        # terminal B → http://localhost:517
 
 Backend default: `http://localhost:3000` · Frontend dev server: `http://localhost:5173`.
 
+### Synthetic data API (Epic 2)
+
+All routes use the global **`/api`** prefix (`main.ts`). Examples assume backend on port 3000:
+
+| Method | Path                            | Purpose                                                                                                            |
+| ------ | ------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `GET`  | `/api/synthetic/generate`       | One synthetic record (`taxReturn` + fairness metadata). Optional query `seed` (integer) for repeatable output.     |
+| `POST` | `/api/synthetic/generate/batch` | Body `{ count: number; seed?: number }` with `count` in `0..100`. JSON array response (empty when `count` is `0`). |
+
+Payloads are validated with Zod schemas from `@irs/shared`. Never submit real taxpayer information.
+
 ## Docker Compose (build-only verified in CI/dev)
 
 Epic 1 validates **`docker compose build`** against pnpm workspaces + multi-stage images.
@@ -71,7 +82,7 @@ docker compose up
 ```
 
 - Frontend published at **`http://localhost:5173`** (nginx serving Vite `dist/`).
-- Backend at **`http://localhost:3000`** (Nest `GET /` demo).
+- Backend at **`http://localhost:3000`** · healthcheck probes **`GET http://localhost:3000/api`** (Nest app root under global prefix `/api`).
 - Frontend **`depends_on`** the backend with **`condition: service_healthy`** so nginx starts after the API healthcheck passes.
 
 `VITE_API_BASE_URL` is baked at **image build time** (see `frontend/Dockerfile` build-arg + `docker-compose.yml`). Adjust the compose `args` block if your API origin differs.

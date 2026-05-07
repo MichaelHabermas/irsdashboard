@@ -1,29 +1,29 @@
 # Progress
 
-> **What works, what's left to build, current status, known issues.**
+> **What works, what's left to build, current status, known issues.**  
 > Refreshed on `update memory bank` trigger and at major milestones. The chronological per-slice log lives in [`docs/dev-log.md`](../docs/dev-log.md); the canonical epic table lives in [`docs/roadmap.md`](../docs/roadmap.md).
 
-**Overall status:** Epic 1 Complete — Starting Epic 2 Next  
+**Overall status:** Epic 2 Complete — Starting Epic 3 Next  
 **Last refreshed:** 2026-05-07
 
-- **2026-05-07** — Epic 1 work merged to `main`; repo cleaned (`deploy-test-out` removed, ignore rule). All quality gates + Docker build verified before Epic 2.
+- **2026-05-07** — Epic 2 synthetic generator + fairness + `/api/synthetic/*` endpoints merged on feature branch; Compose healthcheck aligns with **`/api`**.
 
 ## What Works Today
 
 - Governance + Memory Bank + Cursor rules baseline (see `docs/` + `memory-bank/`).
 - **pnpm monorepo** with strict TS base config, ESLint 9 flat config, Prettier 3.
-- **Backend (`@irs/backend`)**: NestJS 11 scaffold, placeholder modules aligned to PRD architecture, `TaxService` shared sanity hook, Jest (`jest.config.mjs`) + coverage gates + workspace-aware `@irs/shared` mapping.
-- **Frontend (`@irs/frontend`)**: Vite + React 19 + Tailwind v4 + shadcn/ui + TanStack Query; banner text satisfies synthetic-data invariant; Vitest + RTL smoke suite.
-- **Shared (`@irs/shared`)**: Zod `TaxReturnSchema`, Vitest smoke test, CJS `dist/` emit for Node/Jest interop.
-- **Docker**: Multi-stage pnpm builds + Compose file reconciled with workspace layout; `docker compose build` verified locally.
-- **Docs**: README describes architecture (Mermaid), privacy stance, runbooks, env keys.
+- **Backend (`@irs/backend`):** NestJS 11 scaffold; **`synthetic-data` module** generates **SyntheticTaxRecord** payloads (_tax return numeric shape + fairness cohort metadata_), exposes **`GET /api/synthetic/generate`** and **`POST /api/synthetic/generate/batch`**; **`setGlobalPrefix('api')`**; Jest + Supertest coverage gates.
+- **Frontend (`@irs/frontend`)**: Vite + React 19 + Tailwind v4 + shadcn/ui + TanStack Query; banner text satisfies synthetic-data invariant; consumes expanded shared schema for smoke parity.
+- **Shared (`@irs/shared`)**: Expanded **Zod** `TaxReturnSchema`, **`FairnessMetadata`**, **`SyntheticTaxRecordSchema`**, batch request schema + **`SYNTHETIC_BATCH_MAX`**; Vitest smoke tests; CJS `dist/` emit for Node/Jest interop.
+- **Docker**: Multi-stage pnpm builds + Compose; backend health probes **`GET /api`** after global prefix adoption.
+- **Docs**: README includes synthetic REST summary; deployment troubleshooting notes global prefix probes.
 
 ## What's Left to Build
 
 | Epic | Title                                   | Status       | Slices    |
 | ---- | --------------------------------------- | ------------ | --------- |
 | 1    | Project Setup & Monorepo Infrastructure | **Complete** | **6 / 6** |
-| 2    | Synthetic Tax Data Generator            | Not Started  | 0 / 4     |
+| 2    | Synthetic Tax Data Generator            | **Complete** | **4 / 4** |
 | 3    | ML Risk Scoring (TensorFlow.js)         | Not Started  | 0 / 4     |
 | 4    | RAG IRS Contextual Explanations         | Not Started  | 0 / 4     |
 | 5    | Backend API & Orchestration             | Not Started  | 0 / 4     |
@@ -34,8 +34,8 @@
 
 ## Current Status (Headline)
 
-- `pnpm lint`, `pnpm typecheck`, `pnpm test`, and `pnpm format:check` are wired end-to-end across workspaces.
-- Compose + Dockerfiles match pnpm workspace reality; placeholder `data/` + `models/` dirs exist for volume mounts.
+- `pnpm lint`, `pnpm typecheck`, `pnpm test`, and `pnpm format:check` are wired end-to-end across workspaces after Epic 2.
+- Compose + Dockerfiles match pnpm workspace reality; **`/api`** is the externally probeable Nest root route family.
 
 ## Known Issues
 

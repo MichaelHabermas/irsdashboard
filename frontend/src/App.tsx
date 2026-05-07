@@ -19,7 +19,7 @@ function App() {
                 IRS-aligned risk dashboard (portfolio demo)
               </div>
               <div className='text-xs text-muted-foreground'>
-                Synthetic pipeline scaffold — Epic 1 Slice 2
+                Synthetic data API live — Epic 2 (generate + batch wired)
               </div>
             </div>
             <div className='flex flex-wrap items-center gap-2'>
