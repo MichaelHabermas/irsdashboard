@@ -11,7 +11,7 @@
 ## What Works Today
 
 - Governance + Memory Bank + Cursor rules baseline (see `docs/` + `memory-bank/`).
-- **pnpm monorepo** with strict TS base config, ESLint 9 flat config, Prettier 3, Husky + lint-staged.
+- **pnpm monorepo** with strict TS base config, ESLint 9 flat config, Prettier 3.
 - **Backend (`@irs/backend`)**: NestJS 11 scaffold, placeholder modules aligned to PRD architecture, `TaxService` shared sanity hook, Jest (`jest.config.mjs`) + coverage gates + workspace-aware `@irs/shared` mapping.
 - **Frontend (`@irs/frontend`)**: Vite + React 19 + Tailwind v4 + shadcn/ui + TanStack Query; banner text satisfies synthetic-data invariant; Vitest + RTL smoke suite.
 - **Shared (`@irs/shared`)**: Zod `TaxReturnSchema`, Vitest smoke test, CJS `dist/` emit for Node/Jest interop.

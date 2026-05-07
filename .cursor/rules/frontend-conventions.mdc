@@ -65,8 +65,7 @@ A feature folder owns its own components, hooks, types, and tests.
 
 ## Lint / Format
 
-- Strict ESLint + Prettier scripts must pass before any commit.
-- Husky pre-commit runs lint + format.
+- Strict ESLint + Prettier scripts must pass locally and in CI before merge.
 
 ## Tests
 

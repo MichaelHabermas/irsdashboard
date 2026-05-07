@@ -12,7 +12,7 @@
 ## Recent Changes
 
 - **2026-05-07** — **Merged `feat/epic1-scaffolds-slice2` → `main`** (fast-forward to `3d0f43b`). Removed stray `deploy-test-out/`; added to `.gitignore`. Verification: `pnpm format:check`, `lint`, `typecheck`, `test`, `docker compose config` + `build` all green.
-- **2026-05-07** — Slice 1 landed earlier: root ESLint/Prettier/Husky + workspace stubs.
+- **2026-05-07** — Slice 1 landed earlier: root ESLint/Prettier + workspace stubs.
 - **2026-05-07** — Locked frontend tooling + Memory Bank adoption (see earlier entries / `docs/dev-log.md`).
 
 ## Immediate Next Step

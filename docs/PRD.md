@@ -74,7 +74,7 @@ EMBEDDING_MODEL=nomic-ai/nomic-embed-text
 **User Story 1.1:** As a developer, I want a clean monorepo.  
 **Slices:**
 
-1. Root `package.json` workspaces, TS config, ESLint/Prettier, Husky.
+1. Root `package.json` workspaces, TS config, ESLint/Prettier.
 2. Create `/backend` (NestJS), `/frontend` (Vite+React), `/shared` types.
 3. Root Docker Compose skeleton + `.env.example`.
 4. Main README with architecture diagram (Mermaid), how-to-run, FedRAMP/privacy notes.

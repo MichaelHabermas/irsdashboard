@@ -36,7 +36,7 @@ Authoritative module narrative: [`memory-bank/systemPatterns.md`](memory-bank/sy
 | `frontend/` | `@irs/frontend` | React 19 + Vite + Tailwind v4 + shadcn/ui + Query |
 | `shared/`   | `@irs/shared`   | Shared Zod schemas / types (CJS emit for Node)    |
 
-Root tooling: ESLint 9 (flat), Prettier 3, Husky + lint-staged, strict TypeScript base config.
+Root tooling: ESLint 9 (flat), Prettier 3, strict TypeScript base config.
 
 ## Prerequisites
 

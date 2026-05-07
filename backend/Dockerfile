@@ -8,7 +8,6 @@ RUN corepack enable && corepack prepare pnpm@9.15.5 --activate
 
 WORKDIR /app
 
-ENV HUSKY=0
 ENV CI=true
 
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./

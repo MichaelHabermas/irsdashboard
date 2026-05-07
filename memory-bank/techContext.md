@@ -14,7 +14,7 @@
 | **Auth**            | NestJS Passport + JWT (in-memory demo users)                                                    | Basic auth, no DB                             |
 | **Data Store**      | In-memory + JSON files                                                                          | No DB needed for portfolio scope              |
 | **Testing**         | Jest (backend) + Vitest (frontend) + Supertest                                                  | Smoke + regression per slice                  |
-| **Quality**         | ESLint + Prettier (strict scripts) + Husky                                                      | CI-grade gates locally                        |
+| **Quality**         | ESLint + Prettier (strict scripts)                                                              | CI-grade gates locally                        |
 | **DevOps**          | Docker + Docker Compose (multi-stage)                                                           | Production-like local dev                     |
 | **Deploy**          | Render.com free tier (Blueprint via `render.yml`)                                               | Free, monorepo-friendly, auto CI/CD           |
 | **Default RAG LLM** | `meta-llama/llama-3.3-70b-instruct:free`                                                        | Free, open-weight, strong reasoning           |
