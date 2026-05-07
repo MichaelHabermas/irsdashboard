@@ -1,0 +1,50 @@
+---
+description: Cursor Memory Bank protocol. Read every memory-bank/*.md at the start of each task. This is the agent's only persistent context across sessions.
+alwaysApply: true
+---
+
+# Memory Bank Protocol
+
+You are working in a project with a **Cursor Memory Bank** at `memory-bank/`. Your memory resets between sessions; this directory is your only link to prior work. Treat it as authoritative for *current state* and use it together with `docs/` (the chronological / canonical record).
+
+## Mandatory Read at Start of Every Task
+
+At the very beginning of any task in this project, **read all six core files** in this order:
+
+1. `memory-bank/projectbrief.md` — foundation, scope, success criteria.
+2. `memory-bank/productContext.md` — why the project exists, UX goals.
+3. `memory-bank/systemPatterns.md` — architecture, modules, conventions.
+4. `memory-bank/techContext.md` — stack, env, constraints.
+5. `memory-bank/activeContext.md` — current focus, recent changes, next step.
+6. `memory-bank/progress.md` — what works, what's left, status.
+
+Do **not** skip this step, even for "small" tasks. If a file is missing, treat that as a blocker and surface it.
+
+## Relationship to `docs/` and `CLAUDE.md`
+
+- `CLAUDE.md` (root) defines the **strict slice workflow contract**. It always wins on workflow questions.
+- `docs/PRD.md`, `docs/dev-log.md`, `docs/roadmap.md`, `docs/bugs-mitigations.md`, `docs/deployment.md` are the **chronological/canonical record**. They are still updated after every slice per CLAUDE.md §3.
+- `memory-bank/*.md` are **derived, summary views** optimized for fast agent context loading. They link to the docs but never duplicate truth that already lives there.
+
+## Update Triggers
+
+Refresh Memory Bank files when:
+
+1. The user says **"update memory bank"** — review **all six files**, even ones that don't need changes. Focus on `activeContext.md` and `progress.md`.
+2. After a meaningful structural change (new module, new dependency, locked architectural decision).
+3. After completing an Epic (not every slice — that's what `dev-log.md` is for).
+4. When the user clarifies a previously ambiguous decision.
+
+## Update Protocol
+
+1. Read **all six files first** (mandatory; even on partial updates).
+2. Document the change in the relevant file(s).
+3. Bump the `Last updated:` / `Last refreshed:` date.
+4. If a new pattern emerges that future agents should follow, add or update a rule in `.cursor/rules/`.
+5. If the chronological log needs a parallel entry, also append to `docs/dev-log.md` per CLAUDE.md §1.
+
+## Hard Rules
+
+- Never delete a Memory Bank file.
+- Never let `memory-bank/` and `docs/` contradict each other. If they drift, `docs/` (especially PRD and CLAUDE.md) is the tiebreaker.
+- Never skip the start-of-task read, even when it feels redundant.

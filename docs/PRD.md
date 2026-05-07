@@ -41,7 +41,7 @@ EMBEDDING_MODEL=nomic-ai/nomic-embed-text
 - Shared types in `/shared`
 - Frontend: feature-sliced design
 - Frontend conventions: Tailwind v4 tokenized theme (CSS variables), `@/*` import alias, strict lint/format scripts
-- UI theming decision pending: dark mode strategy (`class`-based vs light-only)
+- UI theming: class-based dark mode support enabled; default theme is light with light-only UI exposure for now
 - Docker Compose services: backend, frontend
 - FedRAMP-style comments and privacy notes in every relevant file
 

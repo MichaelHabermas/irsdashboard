@@ -1,0 +1,60 @@
+---
+description: Privacy, fairness, and FedRAMP-style guardrails for the IRS portfolio project.
+alwaysApply: true
+---
+
+# IRS / Privacy / Fairness Guardrails
+
+This is an **IRS-aligned portfolio project**. Every contribution must respect the following non-negotiables.
+
+## Synthetic Data Only
+
+- **No real taxpayer data. Ever.** Not in tests, not in fixtures, not in seed scripts, not in commit messages.
+- All sample 1040 returns are generated via the `synthetic-data` module (Faker + statistical rules).
+- Any data file checked into the repo carries a top-of-file comment confirming it is synthetic and the generator used.
+
+## No Real PII Patterns
+
+- Don't seed realistic SSNs (use clearly invalid placeholders like `000-00-XXXX`).
+- Don't seed real addresses; use placeholder city/state combos that are obviously synthetic.
+- Don't seed real names from public figures.
+
+## Fairness as a First-Class Output
+
+- The `synthetic-data` module emits fairness metadata: `ageGroup`, `gender`, `ethnicity`.
+- The `ml` / `tax` pipeline computes **demographic parity** and **equal opportunity** metrics on every prediction.
+- Fairness metrics are surfaced in the UI. Never hide them behind a "developer mode" flag.
+
+## Transparency Pairing
+
+- A risk score **never travels alone**. It always ships with:
+  1. Feature importance (which inputs drove the score).
+  2. (When `risk > threshold`) A RAG-grounded explanation citing IRS publications.
+- This is a product invariant, enforced at the controller layer.
+
+## FedRAMP-Style Code Comments
+
+Any file touching auth, validation, model inference, or data ingest carries a header noting:
+
+```
+// Privacy posture: 100% synthetic, no real PII.
+// Trust boundary: <inbound HTTP | service-to-service | model-internal>.
+// Data handled: <e.g. JSON tax-return shape, fairness metadata>.
+```
+
+## Logging
+
+- Never log a synthetic 1040 payload in full. Log shape and a request id, not contents.
+- Treat synthetic data with real-data discipline so habits stay safe.
+
+## UI Banner
+
+The frontend always shows a visible **"100% synthetic data — no real taxpayer information"** banner. Don't remove it for any visual polish reason.
+
+## Free-Models Constraint
+
+Use only free/open OpenRouter models (default: `meta-llama/llama-3.3-70b-instruct:free`). Adding a paid model dependency requires explicit human approval and a CLAUDE.md update.
+
+## When in Doubt
+
+If a change feels like it might leak PII, weaken fairness coverage, or hide model reasoning from the user — **stop and ask**. Don't ship it.

@@ -1,0 +1,52 @@
+---
+description: Project governance and human-in-the-loop slice workflow. Mirrors CLAUDE.md.
+alwaysApply: true
+---
+
+# Governance & Slice Workflow
+
+This project follows a **strict human-in-the-loop Git flow**. The authoritative source is [`CLAUDE.md`](mdc:CLAUDE.md); this rule encodes the operational rules for fast agent context.
+
+## Mandatory Governance Files (Per-Slice Updates)
+
+After **every** slice, before requesting human review, update all three:
+
+1. `docs/dev-log.md` — append a chronological entry with date, decision/work, rationale.
+2. `docs/bugs-mitigations.md` — add a row for any bug/issue encountered, even if fixed mid-slice.
+3. `docs/roadmap.md` — bump the affected epic's slice count and notes.
+
+Also refresh:
+
+4. `memory-bank/activeContext.md` — current focus, recent changes, next step.
+5. `memory-bank/progress.md` — what works, what's left, status.
+
+## Slice Execution Protocol
+
+1. **Create a feature branch:** `feat/<epic-short>-<story-short>-sliceN` (e.g. `feat/epic1-monorepo-slice1`). Never commit directly to `main`.
+2. **Implement only the assigned slice.** No scope creep.
+3. **Run all relevant tests:**
+   - Backend: `npm test -- --coverage` (Jest + Supertest).
+   - Frontend: `npm test` (Vitest).
+   - Smoke + regression for the affected area.
+4. **Update governance files** (see above).
+5. **Output the diff** and a governance summary.
+6. **Stop and wait** for the human to reply: `LGTM – commit & continue`.
+7. The human commits. The agent then continues to the next slice.
+
+## Commit Conventions
+
+- **Conventional commits:** `feat:`, `fix:`, `refactor:`, `test:`, `docs:`, `chore:`, `style:`, `perf:`.
+- **Atomic.** One logical change per commit.
+- **Tested.** Don't commit code without passing tests.
+- **Revertible.** No drive-by changes.
+
+## Quality Bars
+
+- New code ≥ **80% test coverage**.
+- Strict TypeScript (`strict: true`, no implicit `any`).
+- SOLID principles, modular design.
+- ESLint + Prettier clean.
+
+## Free-Models Constraint
+
+Use only free/open OpenRouter models. Default `meta-llama/llama-3.3-70b-instruct:free`. Embeddings: `nomic-ai/nomic-embed-text`. **Never** introduce a paid model dependency without explicit human approval.

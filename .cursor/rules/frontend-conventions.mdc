@@ -1,0 +1,75 @@
+---
+description: Frontend conventions — React 19 + Vite + Tailwind v4 + shadcn/ui + TanStack Query.
+globs: frontend/**/*.ts,frontend/**/*.tsx,frontend/**/*.css
+alwaysApply: false
+---
+
+# Frontend Conventions
+
+## Stack (Locked 2026-05-07)
+
+- React 19 + Vite + TypeScript (strict).
+- Tailwind CSS **v4** with **CSS variable tokens** (no raw hex outside the token layer).
+- shadcn/ui (latest) for primitives. Always prefer composing a shadcn primitive over building from scratch.
+- TanStack Query for **all** server state.
+- Recharts for charts.
+- pnpm-managed workspace.
+
+## Path Alias
+
+- Always import via `@/*` for anything inside `frontend/src/`.
+- Never use long relative chains (`../../../`).
+
+## Theming
+
+- Class-based dark mode is wired into the architecture (`<html class="dark">`).
+- **Default and only UI-exposed mode is light** for now. Don't surface a theme toggle until explicitly asked.
+- All colors come from CSS variable tokens. If you find yourself writing `#fff` or `bg-white` in a component, stop — define or reuse a token.
+
+## Feature-Sliced Layout
+
+```
+frontend/src/
+├── features/<feature>/   # vertical slices: upload, results, fairness, auth
+├── components/ui/        # shadcn primitives (generated)
+├── components/<shared>/  # shared composite components
+├── lib/                  # api client, query keys, helpers
+├── hooks/                # cross-feature hooks
+└── routes/               # route definitions
+```
+
+A feature folder owns its own components, hooks, types, and tests.
+
+## Server State
+
+- Every server fetch goes through TanStack Query.
+- Define **query keys as constants** in `lib/queryKeys.ts`. Don't inline strings.
+- Mutations: invalidate the precise affected key, not the entire cache.
+
+## Forms & Validation
+
+- React Hook Form + Zod resolver.
+- Reuse Zod schemas from `@shared/*` whenever the same shape exists on the backend.
+
+## Accessibility
+
+- Use semantic HTML (`<button>`, `<nav>`, `<main>`).
+- All interactive elements are keyboard-reachable and have visible focus states.
+- shadcn primitives bring a11y by default — don't strip it out.
+
+## Performance
+
+- No unnecessary `useMemo` / `useCallback` — only when profiling shows a need or when stabilizing a dep.
+- Code-split routes via `React.lazy` for large pages.
+- Charts: pass memoized data, not recomputed-on-every-render arrays.
+
+## Lint / Format
+
+- Strict ESLint + Prettier scripts must pass before any commit.
+- Husky pre-commit runs lint + format.
+
+## Tests
+
+- Vitest + Testing Library.
+- Test the user-visible behavior, not the implementation.
+- Mock the **network**, not the components.

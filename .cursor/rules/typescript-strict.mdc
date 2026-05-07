@@ -1,0 +1,62 @@
+---
+description: Strict TypeScript and SOLID conventions for backend and frontend code.
+globs: **/*.ts,**/*.tsx
+alwaysApply: false
+---
+
+# TypeScript & SOLID Conventions
+
+## Strictness
+
+- `strict: true` is non-negotiable in every `tsconfig.json`.
+- **No implicit `any`.** Type every parameter, return, and variable that the compiler can't trivially infer.
+- **No `any`** without a `// @ts-expect-error <reason>` or `// eslint-disable-next-line @typescript-eslint/no-explicit-any <reason>` comment.
+- **No `// @ts-ignore`** — always use `@ts-expect-error` so unused suppressions surface as lint errors.
+- **No non-null assertions (`!`)** unless commented with the invariant that justifies them.
+
+## SOLID
+
+- **Single Responsibility:** Each NestJS module / React feature folder owns one concern. If a file describes its purpose with "and", split it.
+- **Open/Closed:** Prefer composition + interfaces over modifying existing code paths.
+- **Liskov:** Subclasses must honor the contract of their parent. Don't `throw` from overridden methods that the parent doesn't throw.
+- **Interface Segregation:** Many small interfaces > one fat interface. Frontend components take narrow prop types.
+- **Dependency Inversion:** Backend services depend on abstractions (NestJS DI). Frontend hooks depend on injected clients, not module-scope singletons.
+
+## Validation
+
+- All **untrusted boundaries** validate input with **Zod** or **class-validator**:
+  - HTTP controller params/bodies.
+  - File upload payloads.
+  - Anything coming from `localStorage` or URL query params.
+- Internal services trust their inputs (no defensive re-validation).
+
+## Shared Types
+
+- DTOs and Zod schemas live in `/shared/` and are imported on both sides via `@shared/*`.
+- **Never duplicate** a type across backend and frontend.
+
+## Imports
+
+- No inline `require` or dynamic `import()` unless lazy-loading is the explicit goal (and commented).
+- Top-of-file imports only. No imports inside functions.
+- Backend: relative within a module, absolute via tsconfig paths across modules.
+- Frontend: `@/*` alias for everything inside `frontend/src/`.
+
+## Error Handling
+
+- Throw **typed** errors (custom error classes extending `Error`).
+- Backend: use NestJS exception filters; never leak stack traces to clients.
+- Frontend: TanStack Query error boundaries + user-visible toasts.
+
+## Tests
+
+- Co-locate tests next to source (`foo.ts` ↔ `foo.spec.ts`).
+- Backend: Jest + Supertest for HTTP.
+- Frontend: Vitest + Testing Library.
+- New code: ≥ 80% coverage. Aim for **behavioral** tests, not mock-heavy implementation tests.
+
+## Comments
+
+- **Don't narrate code.** No "// Loop over items".
+- **Do** explain non-obvious intent, trade-offs, or constraints.
+- **FedRAMP-style header** on files touching auth, validation, or data persistence — note privacy/data-handling constraints.

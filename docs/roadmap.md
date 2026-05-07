@@ -16,17 +16,20 @@
 | 7    | Docker, Security & Final Polish            | Not Started | 0/4              | 4            | - |
 
 ## Next Action
+
 Start **Epic 1, User Story 1.1, Slice 1** (Monorepo initialization).
 
 ## Locked Implementation Choices (2026-05-07)
+
 - Use `pnpm` workspaces for monorepo package management.
 - Frontend baseline: React + Vite + TypeScript + Tailwind CSS v4 + latest shadcn/ui.
 - Use Tailwind CSS variable tokens for theming.
 - Add strict ESLint/Prettier scripts for local + CI validation.
 - Add `@/*` alias for frontend imports.
-- Open decision: dark mode strategy (`class` mode vs light-only).
+- Dark mode strategy resolved: class-based dark mode support, but default and exposed mode is light for now.
 
 ## Blockers
+
 - None
 
 ---

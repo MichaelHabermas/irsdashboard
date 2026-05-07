@@ -3,6 +3,7 @@
 This project is optimized for **Render.com** — the easiest, cheapest (free forever for hobby use), and most maintainable deployment platform for this monorepo.
 
 ## Why Render?
+
 - Free Hobby tier (750 hours/month — more than enough)
 - Excellent monorepo + Docker support
 - Automatic CI/CD on every `main` push
@@ -25,6 +26,7 @@ This project is optimized for **Render.com** — the easiest, cheapest (free for
 ## Manual Setup (Alternative)
 
 ### Backend (Web Service)
+
 - **Root Directory**: `backend`
 - **Runtime**: Docker
 - **Dockerfile Path**: `backend/Dockerfile`
@@ -32,6 +34,7 @@ This project is optimized for **Render.com** — the easiest, cheapest (free for
 - **Environment Variables**: Copy from `.env.example`
 
 ### Frontend (Static Site)
+
 - **Root Directory**: `frontend`
 - **Build Command**: `npm run build`
 - **Publish Directory**: `dist`
@@ -47,14 +50,17 @@ This project is optimized for **Render.com** — the easiest, cheapest (free for
 | `VITE_API_BASE_URL`   | Backend URL for frontend                 | Set on Frontend service            |
 
 ## Post-Deployment Steps
+
 1. Update frontend `VITE_API_BASE_URL` to point to the deployed backend.
 2. Test the app: Upload a mock tax return.
 3. Add a custom domain (optional) in Render settings.
 
 ## CI/CD
+
 Every push to `main` automatically triggers a new deploy for both services.
 
 ## Troubleshooting
+
 - Cold start delay → Normal on free tier
 - RAG not working → Check `OPENROUTER_API_KEY`
 - CORS issues → Ensure backend allows the frontend URL

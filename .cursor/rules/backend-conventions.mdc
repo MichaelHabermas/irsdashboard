@@ -1,0 +1,83 @@
+---
+description: Backend conventions — NestJS 10+, modular SOLID, JWT, Zod + class-validator.
+globs: backend/**/*.ts
+alwaysApply: false
+---
+
+# Backend Conventions
+
+## Stack
+
+- NestJS 10+ with modular DI.
+- TensorFlow.js (Node) for ML inference.
+- LangChain.js + OpenRouter for RAG.
+- NestJS Passport + JWT for auth (in-memory demo users).
+- Jest + Supertest for tests.
+
+## Module Layout (Single Responsibility)
+
+| Module | Responsibility |
+|--------|----------------|
+| `auth` | JWT issuance + guards. In-memory demo users. |
+| `synthetic-data` | Faker + statistical rules → mock 1040 returns with fairness metadata. |
+| `ml` | TFJS model load + inference + feature attribution. |
+| `rag` | LangChain.js chain over seeded IRS pubs in MemoryVectorStore. |
+| `tax` | Orchestration controller. The single REST entry point. |
+
+**Rule:** if a module description needs "and", it's two modules.
+
+## API Design
+
+- `POST /api/predict` is the canonical orchestration endpoint.
+- Every response includes feature importance — **never** a bare score.
+- RAG explanation is attached only when `risk > threshold` (latency budget).
+- Fairness metrics are returned with every prediction.
+- OpenAPI/Swagger doc generation is mandatory; expose at `/api`.
+
+## Validation
+
+- Every controller method validates input with **Zod** or **class-validator** at the boundary.
+- Internal services trust their inputs.
+- Reject malformed payloads with a typed `BadRequestException` and a structured error body.
+
+## Auth
+
+- All routes are **JWT-guarded by default** unless explicitly marked `@Public()`.
+- The demo user store is in-memory; document this loud and clear in code comments.
+- Never log JWTs, never echo auth headers in error responses.
+
+## Error Handling
+
+- Use NestJS exception filters.
+- Never leak stack traces or internal paths to clients.
+- Custom error classes extending `Error` for domain errors.
+
+## Logging
+
+- Use NestJS `Logger`. No raw `console.log`.
+- Log levels: `error` for unexpected failures, `warn` for recoverable, `log` for lifecycle, `debug` behind a flag.
+- **Never log PII** — even synthetic. Treat synthetic data as if it were real to keep habits clean.
+
+## Performance
+
+- Inference must stay **< 500 ms** end-to-end on the predict path.
+- Cache the loaded TFJS model at module init; never load per-request.
+- RAG: keep the MemoryVectorStore in memory, populate at startup.
+
+## OpenRouter Resilience
+
+- If `OPENROUTER_API_KEY` is missing, **the server still starts**. RAG endpoints return a clear "RAG unavailable" message; predict still returns score + importance + fairness.
+- Handle 429 / network failures with a single retry + backoff, then degrade gracefully.
+
+## FedRAMP-Style Comments
+
+Files touching auth, validation, model inference, or data ingest carry a header comment summarizing:
+- What data flows through this file.
+- Privacy posture (always: "100% synthetic, no real PII").
+- Trust boundary it sits on.
+
+## Tests
+
+- Co-locate `foo.spec.ts` next to `foo.ts`.
+- Supertest for HTTP-level integration.
+- New code ≥ 80% coverage. Behavioral over implementation-locked.

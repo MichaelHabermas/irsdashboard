@@ -36,7 +36,8 @@ All data is **100% synthetic** — no real taxpayer information is used.
 - shadcn/ui latest compatible setup
 - `@/*` path alias for frontend imports
 - strict lint/format scripts for CI
-- dark mode strategy: pending final choice (`class` mode vs light-only)
+- class-based dark mode support enabled in architecture
+- default runtime theme is light, and UI should expose light mode only for now
 
 ## Quick Start
 
@@ -95,16 +96,34 @@ npm run dev
 ├── shared/               # Shared types & DTOs
 ├── data/                 # IRS publication samples
 ├── models/               # TensorFlow.js exported model
-├── docs/                 # All documentation
+├── memory-bank/          # Cursor Memory Bank — agent's persistent context
+│   ├── projectbrief.md   # Foundation: vision + scope
+│   ├── productContext.md # Why it exists, UX goals
+│   ├── systemPatterns.md # Architecture, modules, conventions
+│   ├── techContext.md    # Stack, env, constraints
+│   ├── activeContext.md  # Current focus, recent changes, next step
+│   └── progress.md       # What works, what's left, status
+├── .cursor/
+│   └── rules/            # MDC rules: memory-bank, governance,
+│                         # typescript-strict, frontend, backend, irs-privacy
+├── docs/                 # Canonical / chronological documentation
 │   ├── PRD.md
 │   ├── dev-log.md
 │   ├── bugs-mitigations.md
-│   └── roadmap.md
+│   ├── roadmap.md
+│   └── deployment.md
 ├── CLAUDE.md             # LLM coder ruleset (root)
 ├── README.md
 ├── .env.example
 └── docker-compose.yml
 ```
+
+### Documentation Hierarchy
+
+- **`memory-bank/`** is the agent's start-of-task entry point. Summarized, linked.
+- **`docs/`** is the canonical / chronological record. Authoritative on disagreement.
+- **`CLAUDE.md`** is the workflow contract.
+- **`.cursor/rules/`** encodes operational rules for Cursor agents.
 
 ## Key Features
 
