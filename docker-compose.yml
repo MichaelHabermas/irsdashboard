@@ -5,7 +5,7 @@ services:
       dockerfile: backend/Dockerfile
     container_name: tax-risk-backend
     ports:
-      - "3000:3000"
+      - '3000:3000'
     environment:
       - NODE_ENV=production
       - PORT=3000
@@ -30,7 +30,7 @@ services:
       dockerfile: frontend/Dockerfile
     container_name: tax-risk-frontend
     ports:
-      - "5173:80"
+      - '5173:80'
     environment:
       - VITE_API_BASE_URL=http://localhost:3000
     restart: unless-stopped

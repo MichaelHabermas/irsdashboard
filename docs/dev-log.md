@@ -44,9 +44,11 @@ A full-stack TypeScript monorepo (NestJS + React Vite) demonstrating synthetic t
 
 ## Chronological Progress
 
+- **2026-05-07**: Epic 1 Slice 1 — Merged `feat/memory-bank-init` → `main`. Root monorepo tooling: `pnpm-workspace.yaml`, shared `tsconfig.base.json` (strict), ESLint 9 flat config, Prettier 3, Husky 9 + lint-staged. Minimal workspace stubs under `backend/`, `frontend/`, `shared/` for recursive lint/typecheck until Slice 2 scaffolds real apps. Ran repository-wide Prettier normalize pass so `format:check` is CI-clean.
 - **2026-05-06**: Project specification finalized. Governance files (CLAUDE.md, dev-log.md, bugs-mitigations.md, roadmap.md) created. Ready for Epic 1.
 - **2026-05-07**: Documentation updated to lock frontend/tooling choices before scaffold implementation.
 - **2026-05-07**: Memory Bank pattern adopted — `memory-bank/` and `.cursor/rules/` added on a feature branch (`feat/memory-bank-init`), `CLAUDE.md` and `README.md` updated. No code changes; documentation/governance only.
 
 ---
-*This log will be updated after every slice.*
+
+_This log will be updated after every slice._

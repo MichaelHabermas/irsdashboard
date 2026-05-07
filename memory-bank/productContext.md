@@ -20,7 +20,7 @@ The IRS / U.S. Treasury are actively hiring AI-first developers in 2026 for work
 3. App returns a single-page result:
    - Risk score (0–1, with confidence).
    - Feature importance bar chart (top contributing features).
-   - Plain-English explanation of *why* this return looks risky, with **direct citations** to relevant IRS publications (Pub 17, 334, form instructions, etc.).
+   - Plain-English explanation of _why_ this return looks risky, with **direct citations** to relevant IRS publications (Pub 17, 334, form instructions, etc.).
    - Fairness panel showing demographic-parity / equal-opportunity metrics.
 4. User can generate synthetic test cases on demand to explore the model.
 

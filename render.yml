@@ -15,15 +15,15 @@ services:
       - key: NODE_ENV
         value: production
       - key: PORT
-        value: 10000                  # Render uses 10000 by default
+        value: 10000 # Render uses 10000 by default
       - key: OPENROUTER_API_KEY
-        sync: false                   # You will be prompted to fill this
+        sync: false # You will be prompted to fill this
       - key: RAG_LLM_MODEL
         value: meta-llama/llama-3.3-70b-instruct:free
       - key: EMBEDDING_MODEL
         value: nomic-ai/nomic-embed-text
       - key: JWT_SECRET
-        generateValue: true           # Auto-generates a secure secret
+        generateValue: true # Auto-generates a secure secret
       - key: JWT_EXPIRES_IN
         value: 1d
       - key: FRONTEND_URL

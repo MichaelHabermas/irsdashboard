@@ -43,11 +43,11 @@ This project is optimized for **Render.com** — the easiest, cheapest (free for
 
 ## Required Environment Variables
 
-| Variable              | Description                              | Example / Note                     |
-|-----------------------|------------------------------------------|------------------------------------|
-| `OPENROUTER_API_KEY`  | Your OpenRouter key                      | Required for RAG                   |
-| `JWT_SECRET`          | Secret for JWT auth                      | Change in production               |
-| `VITE_API_BASE_URL`   | Backend URL for frontend                 | Set on Frontend service            |
+| Variable             | Description              | Example / Note          |
+| -------------------- | ------------------------ | ----------------------- |
+| `OPENROUTER_API_KEY` | Your OpenRouter key      | Required for RAG        |
+| `JWT_SECRET`         | Secret for JWT auth      | Change in production    |
+| `VITE_API_BASE_URL`  | Backend URL for frontend | Set on Frontend service |
 
 ## Post-Deployment Steps
 

@@ -2,9 +2,10 @@
 
 **Project:** AI-Powered Tax Fraud/Risk Detection Dashboard  
 **Version:** 1.0  
-**Date:** May 6, 2026  
+**Date:** May 6, 2026
 
 ## Session Initialization Log
+
 - **Date:** [Insert current date when first run]
 - **LLM Used:** Claude / Cursor / etc.
 - **Status:** Ruleset loaded. Governance files initialized.
@@ -12,6 +13,7 @@
 ---
 
 ### 0. Start-of-Task Entry Point — Cursor Memory Bank
+
 Before doing anything in this project, **read all six files** in `memory-bank/` (in order):
 
 1. `memory-bank/projectbrief.md`
@@ -26,6 +28,7 @@ The Memory Bank is your only persistent context across sessions. It summarizes a
 If the user says **"update memory bank"**, review **all six files** even if some don't need changes — focus on `activeContext.md` and `progress.md`.
 
 ### 1. Mandatory Governance Files
+
 You **must** maintain these three files in `docs/`:
 
 - **docs/dev-log.md** – Chronological development flow, all decisions, and journey from start to finish.
@@ -40,6 +43,7 @@ After every slice, also refresh:
 **Rule:** All five files updated before waiting for human review.
 
 ### 2. Core Development Rules
+
 - Strictly follow the Human-in-the-Loop Git Flow (feature branches, tests, wait for “LGTM – commit & continue”).
 - Use only free/open models on OpenRouter (`meta-llama/llama-3.3-70b-instruct:free` by default).
 - Maintain SOLID principles, strict TypeScript, modular design.
@@ -47,6 +51,7 @@ After every slice, also refresh:
 - Log every meaningful decision in `dev-log.md`.
 
 ### 3. Slice Execution Protocol
+
 1. Read all six `memory-bank/*.md` files first.
 2. Create feature branch (`feat/<epic-short>-<story-short>-sliceN`).
 3. Implement **only** the assigned slice.

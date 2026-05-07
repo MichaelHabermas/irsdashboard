@@ -7,9 +7,9 @@
 
 ## Current Focus
 
-**Phase:** Planning & Setup (pre-Epic-1).
+**Phase:** Epic 1 — Monorepo Infrastructure (in progress).
 
-The Memory Bank workflow has just been adopted on top of the existing CLAUDE.md governance contract. No application code has been scaffolded yet — `/backend` and `/frontend` only contain Dockerfiles. Next concrete work is Epic 1, Slice 1 (monorepo init).
+Slice 1 complete on branch `feat/epic1-monorepo-slice1`: pnpm workspaces, strict TS base config, ESLint + Prettier + Husky + lint-staged; minimal workspace stubs. Next: Slice 2 — NestJS backend modules + Vite/React/Tailwind v4/shadcn frontend + shared package.
 
 ## Recent Changes
 
@@ -19,16 +19,12 @@ The Memory Bank workflow has just been adopted on top of the existing CLAUDE.md 
 
 ## Immediate Next Step
 
-**Epic 1, User Story 1.1, Slice 1** — Monorepo initialization:
+**Epic 1, Slice 2** — Application scaffolds:
 
-1. Create feature branch `feat/epic1-monorepo-slice1`.
-2. Root `package.json` with pnpm workspaces.
-3. Root `tsconfig.json` (strict mode).
-4. ESLint + Prettier configs at root.
-5. Husky pre-commit hook for lint + format.
-6. Run smoke checks (lint, typecheck on empty workspaces).
-7. Update `docs/dev-log.md`, `docs/roadmap.md`, this file.
-8. Stop, output diff, wait for "LGTM – commit & continue".
+1. Branch `feat/epic1-scaffolds-slice2` from `main` (after Slice 1 lands) or continue from current epic branch per repo convention.
+2. Replace placeholders with NestJS 10 backend + Vite React 19 frontend + shared types package.
+3. Wire `@irs/shared` into backend/frontend; align Dockerfiles if needed.
+4. Update governance files + Memory Bank; run full `pnpm -r build` / typecheck.
 
 ## Active Decisions / Open Questions
 
@@ -39,7 +35,7 @@ The Memory Bank workflow has just been adopted on top of the existing CLAUDE.md 
 
 - Husky must work cross-platform (mac primary, but render.com builds in Linux).
 - Root tsconfig should reference workspace tsconfigs via project references for fast incremental builds.
-- Don't over-scaffold — Epic 1.1.1 is *only* root workspace setup, not NestJS/Vite scaffolds (those are slices 1.1.2 onward).
+- Don't over-scaffold — Epic 1.1.1 is _only_ root workspace setup, not NestJS/Vite scaffolds (those are slices 1.1.2 onward).
 
 ## Pointers
 

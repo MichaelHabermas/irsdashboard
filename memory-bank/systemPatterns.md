@@ -22,13 +22,13 @@ flowchart LR
 
 Each module has a single responsibility:
 
-| Module | Responsibility |
-|--------|----------------|
-| `auth` | JWT issuance + guard. In-memory demo users. |
-| `synthetic-data` | Faker + statistical rules → realistic mock 1040 returns with fairness metadata (`ageGroup`, `gender`, `ethnicity`). |
-| `ml` | Loads exported TensorFlow.js model, runs inference, computes feature attribution (integrated gradients or permutation importance). |
-| `rag` | LangChain.js chain: OpenRouter embeddings → MemoryVectorStore over seeded IRS pubs → free Llama 3.3 70B for grounded explanations. |
-| `tax` | Orchestration controller. Synthetic → predict → RAG. Single REST entry point. |
+| Module           | Responsibility                                                                                                                     |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `auth`           | JWT issuance + guard. In-memory demo users.                                                                                        |
+| `synthetic-data` | Faker + statistical rules → realistic mock 1040 returns with fairness metadata (`ageGroup`, `gender`, `ethnicity`).                |
+| `ml`             | Loads exported TensorFlow.js model, runs inference, computes feature attribution (integrated gradients or permutation importance). |
+| `rag`            | LangChain.js chain: OpenRouter embeddings → MemoryVectorStore over seeded IRS pubs → free Llama 3.3 70B for grounded explanations. |
+| `tax`            | Orchestration controller. Synthetic → predict → RAG. Single REST entry point.                                                      |
 
 ## Frontend Layout (Feature-Sliced)
 

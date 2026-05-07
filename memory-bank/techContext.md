@@ -4,21 +4,21 @@
 
 ## Stack Summary
 
-| Layer | Technology | Why |
-|-------|------------|-----|
-| **Monorepo / PM** | pnpm workspaces (`/backend`, `/frontend`, `/shared`) | Clean separation, fast installs |
-| **Backend** | NestJS 10+ | Modular, DI, SOLID-friendly, enterprise-grade |
-| **Frontend** | React 19 + Vite + TypeScript + Tailwind CSS v4 + shadcn/ui (latest) + TanStack Query + Recharts | Modern, production-ready UI |
-| **ML Inference** | TensorFlow.js (Node) | Pure TS, no Python service |
-| **RAG** | LangChain.js + OpenRouter (OpenAI-compatible) + MemoryVectorStore | Free model flexibility |
-| **Auth** | NestJS Passport + JWT (in-memory demo users) | Basic auth, no DB |
-| **Data Store** | In-memory + JSON files | No DB needed for portfolio scope |
-| **Testing** | Jest (backend) + Vitest (frontend) + Supertest | Smoke + regression per slice |
-| **Quality** | ESLint + Prettier (strict scripts) + Husky | CI-grade gates locally |
-| **DevOps** | Docker + Docker Compose (multi-stage) | Production-like local dev |
-| **Deploy** | Render.com free tier (Blueprint via `render.yaml`) | Free, monorepo-friendly, auto CI/CD |
-| **Default RAG LLM** | `meta-llama/llama-3.3-70b-instruct:free` | Free, open-weight, strong reasoning |
-| **Embeddings** | `nomic-ai/nomic-embed-text` (free OpenRouter) | Zero cost |
+| Layer               | Technology                                                                                      | Why                                           |
+| ------------------- | ----------------------------------------------------------------------------------------------- | --------------------------------------------- |
+| **Monorepo / PM**   | pnpm workspaces (`/backend`, `/frontend`, `/shared`)                                            | Clean separation, fast installs               |
+| **Backend**         | NestJS 10+                                                                                      | Modular, DI, SOLID-friendly, enterprise-grade |
+| **Frontend**        | React 19 + Vite + TypeScript + Tailwind CSS v4 + shadcn/ui (latest) + TanStack Query + Recharts | Modern, production-ready UI                   |
+| **ML Inference**    | TensorFlow.js (Node)                                                                            | Pure TS, no Python service                    |
+| **RAG**             | LangChain.js + OpenRouter (OpenAI-compatible) + MemoryVectorStore                               | Free model flexibility                        |
+| **Auth**            | NestJS Passport + JWT (in-memory demo users)                                                    | Basic auth, no DB                             |
+| **Data Store**      | In-memory + JSON files                                                                          | No DB needed for portfolio scope              |
+| **Testing**         | Jest (backend) + Vitest (frontend) + Supertest                                                  | Smoke + regression per slice                  |
+| **Quality**         | ESLint + Prettier (strict scripts) + Husky                                                      | CI-grade gates locally                        |
+| **DevOps**          | Docker + Docker Compose (multi-stage)                                                           | Production-like local dev                     |
+| **Deploy**          | Render.com free tier (Blueprint via `render.yaml`)                                              | Free, monorepo-friendly, auto CI/CD           |
+| **Default RAG LLM** | `meta-llama/llama-3.3-70b-instruct:free`                                                        | Free, open-weight, strong reasoning           |
+| **Embeddings**      | `nomic-ai/nomic-embed-text` (free OpenRouter)                                                   | Zero cost                                     |
 
 ## Locked Frontend Choices (2026-05-07)
 
