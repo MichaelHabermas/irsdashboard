@@ -1,0 +1,44 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: tax-risk-backend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - FRONTEND_URL=http://localhost:5173
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      - RAG_LLM_MODEL=${RAG_LLM_MODEL}
+      - EMBEDDING_MODEL=${EMBEDDING_MODEL}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRES_IN=${JWT_EXPIRES_IN}
+    volumes:
+      - ./models:/app/models:ro
+      - ./data:/app/data:ro
+    depends_on:
+      - frontend
+    restart: unless-stopped
+    networks:
+      - tax-risk-network
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: tax-risk-frontend
+    ports:
+      - "5173:80"
+    environment:
+      - VITE_API_BASE_URL=http://localhost:3000
+    restart: unless-stopped
+    networks:
+      - tax-risk-network
+
+networks:
+  tax-risk-network:
+    driver: bridge
+
+# FEDRAMP Note: In production, use secrets management (AWS Secrets Manager / Azure Key Vault) instead of env vars
