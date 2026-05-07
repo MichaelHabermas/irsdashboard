@@ -18,21 +18,28 @@ services:
     volumes:
       - ./models:/app/models:ro
       - ./data:/app/data:ro
-    depends_on:
-      - frontend
     restart: unless-stopped
     networks:
       - tax-risk-network
+    healthcheck:
+      test: ['CMD', 'wget', '-q', '--spider', 'http://127.0.0.1:3000/']
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 25s
 
   frontend:
     build:
       context: .
       dockerfile: frontend/Dockerfile
+      args:
+        VITE_API_BASE_URL: http://localhost:3000
     container_name: tax-risk-frontend
     ports:
       - '5173:80'
-    environment:
-      - VITE_API_BASE_URL=http://localhost:3000
+    depends_on:
+      backend:
+        condition: service_healthy
     restart: unless-stopped
     networks:
       - tax-risk-network

@@ -1,54 +1,50 @@
-# ==================== Stage 1: Builder ====================
+# Privacy posture: 100% synthetic builds only.
+# Trust boundary: container image build (CI/deploy artifact).
+# Data handled: none at build time.
+
 FROM node:20-alpine AS builder
+
+RUN corepack enable && corepack prepare pnpm@9.15.5 --activate
 
 WORKDIR /app
 
-# Install dependencies
-COPY package*.json ./
-COPY backend/package*.json ./backend/
-COPY shared/package*.json ./shared/
+ENV HUSKY=0
+ENV CI=true
 
-RUN npm ci
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
+COPY tsconfig.base.json ./
+COPY backend/package.json backend/
+COPY shared/package.json shared/
+COPY frontend/package.json frontend/
 
-# Copy source
-COPY shared/ ./shared/
-COPY backend/ ./backend/
+RUN pnpm install --frozen-lockfile
 
-# Build backend
-WORKDIR /app/backend
-RUN npm run build
+COPY shared ./shared
+COPY backend ./backend
 
-# ==================== Stage 2: Production ====================
+RUN pnpm --filter @irs/shared build && pnpm --filter @irs/backend build
+RUN pnpm --filter @irs/backend deploy --prod /prod/app
+
 FROM node:20-alpine AS production
 
 WORKDIR /app
 
-# Install production dependencies only
-COPY package*.json ./
-COPY backend/package*.json ./backend/
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nestjs -u 1001
 
-RUN npm ci --only=production
+COPY --from=builder /prod/app ./
 
-# Copy built files
-COPY --from=builder /app/backend/dist ./backend/dist
-COPY --from=builder /app/shared ./shared
+COPY --chown=nestjs:nodejs data ./data
+COPY --chown=nestjs:nodejs models ./models
 
-# Copy necessary folders
-COPY backend/package*.json ./backend/
-COPY data/ ./data/
-COPY models/ ./models/
+USER nestjs
 
-# Set production environment
 ENV NODE_ENV=production
 ENV PORT=3000
 
 EXPOSE 3000
 
-# Run as non-root user for security
-RUN addgroup -g 1001 -S nodejs && \
-    adduser -S nestjs -u 1001 && \
-    chown -R nestjs:nodejs /app
+HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=5 \
+  CMD wget --no-verbose --tries=1 --spider http://127.0.0.1:3000/ || exit 1
 
-USER nestjs
-
-CMD ["node", "backend/dist/main"]
+CMD ["node", "dist/main.js"]

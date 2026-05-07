@@ -7,7 +7,7 @@
 | Layer               | Technology                                                                                      | Why                                           |
 | ------------------- | ----------------------------------------------------------------------------------------------- | --------------------------------------------- |
 | **Monorepo / PM**   | pnpm workspaces (`/backend`, `/frontend`, `/shared`)                                            | Clean separation, fast installs               |
-| **Backend**         | NestJS 10+                                                                                      | Modular, DI, SOLID-friendly, enterprise-grade |
+| **Backend**         | NestJS 11 (CLI scaffold; PRD targeted 10+ — pin reviewed before prod)                           | Modular, DI, SOLID-friendly, enterprise-grade |
 | **Frontend**        | React 19 + Vite + TypeScript + Tailwind CSS v4 + shadcn/ui (latest) + TanStack Query + Recharts | Modern, production-ready UI                   |
 | **ML Inference**    | TensorFlow.js (Node)                                                                            | Pure TS, no Python service                    |
 | **RAG**             | LangChain.js + OpenRouter (OpenAI-compatible) + MemoryVectorStore                               | Free model flexibility                        |
@@ -47,16 +47,19 @@ JWT_SECRET=super-secret-jwt-key-for-demo-only-change-in-production
 JWT_EXPIRES_IN=1d
 ```
 
-Frontend additionally needs `VITE_API_BASE_URL` when deployed.
+Frontend additionally needs `VITE_API_BASE_URL` when deployed / Docker-built (baked at image build time).
+
+`@irs/shared` emits **CommonJS** `dist/` for Node/Jest ergonomics while Vite consumes TypeScript source via aliases.
 
 ## Local Development
 
 ```bash
 cp .env.example .env
 pnpm install
-docker compose up --build         # OR
-pnpm --filter backend run start:dev
-pnpm --filter frontend run dev
+docker compose build              # Epic 1 CI/dev gate (images)
+docker compose up --build         # optional local stack
+pnpm --filter @irs/backend run start:dev
+pnpm --filter @irs/frontend run dev
 ```
 
 Frontend: http://localhost:5173 — Backend + Swagger: http://localhost:3000/api
@@ -81,7 +84,7 @@ Frontend: http://localhost:5173 — Backend + Swagger: http://localhost:3000/api
 
 - Backend: `npm test -- --coverage`, `npm run start:dev`, `npm run build`.
 - Frontend: `npm test`, `npm run dev`, `npm run build`.
-- Root: lint + format scripts via pnpm workspaces.
+- Root: `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm format(:check)` via workspaces.
 
 ## Authoritative References
 

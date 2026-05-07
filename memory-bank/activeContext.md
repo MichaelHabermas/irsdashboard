@@ -7,38 +7,34 @@
 
 ## Current Focus
 
-**Phase:** Epic 1 — Monorepo Infrastructure (in progress).
-
-Slice 1 complete on branch `feat/epic1-monorepo-slice1`: pnpm workspaces, strict TS base config, ESLint + Prettier + Husky + lint-staged; minimal workspace stubs. Next: Slice 2 — NestJS backend modules + Vite/React/Tailwind v4/shadcn frontend + shared package.
+**Phase:** Epic 1 — **complete** (6/6 slices). Next epic: **Epic 2 — Synthetic Tax Data Generator**.
 
 ## Recent Changes
 
-- **2026-05-07** — Adopted Memory Bank pattern. Added `memory-bank/` core files and `.cursor/rules/*.mdc`. Existing `docs/` governance files remain authoritative; Memory Bank summarizes and links to them. CLAUDE.md updated to reference Memory Bank as the start-of-task entry point.
-- **2026-05-07** — Locked frontend tooling: pnpm workspaces, Tailwind CSS v4 with CSS-variable tokens, latest shadcn/ui, `@/*` alias, strict ESLint/Prettier scripts, class-based dark mode but light-only UI for now.
-- **2026-05-06** — Initial project specification finalized. Governance files (CLAUDE.md, dev-log, bugs-mitigations, roadmap) created.
+- **2026-05-07** — Epic 1 closed: Nest+Vite+shared scaffolds, pnpm Dockerfiles + Compose reconciliation, README + governance refresh, Jest/Vitest configs with smoke suites + coverage gates (backend branch floor documented).
+- **2026-05-07** — Slice 1 landed earlier: root ESLint/Prettier/Husky + workspace stubs.
+- **2026-05-07** — Locked frontend tooling + Memory Bank adoption (see earlier entries / `docs/dev-log.md`).
 
 ## Immediate Next Step
 
-**Epic 1, Slice 2** — Application scaffolds:
+**Epic 2, Slice 1** — begin synthetic data generator work per `docs/PRD.md`:
 
-1. Branch `feat/epic1-scaffolds-slice2` from `main` (after Slice 1 lands) or continue from current epic branch per repo convention.
-2. Replace placeholders with NestJS 10 backend + Vite React 19 frontend + shared types package.
-3. Wire `@irs/shared` into backend/frontend; align Dockerfiles if needed.
-4. Update governance files + Memory Bank; run full `pnpm -r build` / typecheck.
+1. Branch `feat/epic2-synthetic-data-slice1` from `main` (after Epic 1 merge) per governance convention.
+2. Implement generator core inside `backend/src/synthetic-data/` with fairness metadata + tests (≥80% new-code coverage).
+3. Refresh governance docs + Memory Bank (`activeContext`, `progress`) after the slice.
 
 ## Active Decisions / Open Questions
 
-- **None blocking.** All locked decisions captured in [`memory-bank/techContext.md`](./techContext.md).
-- **Watchlist:** keep an eye on whether MemoryVectorStore is sufficient for RAG quality, or if we need a tiny on-disk store. Will revisit in Epic 4.
+- **Nest major version:** CLI scaffold produced Nest **11** (PRD cited 10+) — acceptable for portfolio; confirm pin vs upgrade story before production hardening.
+- **Jest branch threshold:** temporarily **75%** global branches — raise toward 80% when Epic 5 adds HTTP/E2E coverage.
 
 ## Considerations for the Next Slice
 
-- Husky must work cross-platform (mac primary, but render.com builds in Linux).
-- Root tsconfig should reference workspace tsconfigs via project references for fast incremental builds.
-- Don't over-scaffold — Epic 1.1.1 is _only_ root workspace setup, not NestJS/Vite scaffolds (those are slices 1.1.2 onward).
+- Preserve synthetic-data-only guarantees (`irs-privacy` headers, logging discipline).
+- Continue importing DTOs exclusively from `@irs/shared` — no duplicated shapes.
 
 ## Pointers
 
-- Current epic table: [`docs/roadmap.md`](../docs/roadmap.md) and [`memory-bank/progress.md`](./progress.md).
+- Epic table: [`docs/roadmap.md`](../docs/roadmap.md) · snapshot: [`memory-bank/progress.md`](./progress.md).
 - Slice protocol: [`CLAUDE.md`](../CLAUDE.md) §3.
-- Decisions log: [`docs/dev-log.md`](../docs/dev-log.md).
+- Chronological log: [`docs/dev-log.md`](../docs/dev-log.md).

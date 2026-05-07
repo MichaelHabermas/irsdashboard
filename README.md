@@ -1,182 +1,118 @@
-# AI-Powered Tax Fraud/Risk Detection Dashboard
+# AI-Powered Tax Fraud / Risk Detection Dashboard
 
-**A production-grade portfolio project** built to demonstrate full-stack TypeScript + AI skills for **IRS / U.S. Treasury** AI-first developer roles.
+**Production-grade portfolio project** for **IRS / U.S. Treasury** AI-first developer roles (2026).  
+100% **synthetic** data — **no real taxpayer PII** (see [`.cursor/rules/irs-privacy.mdc`](.cursor/rules/irs-privacy.mdc)).
 
-## Overview
+## What this demonstrates
 
-This application allows users to upload a mock tax return (JSON/CSV simulating Form 1040) and receive:
+- End-to-end **TypeScript**: NestJS API, React (Vite) UI, shared Zod DTOs, future TensorFlow.js + RAG (per [`docs/PRD.md`](docs/PRD.md)).
+- **Explainable risk**: scores ship with feature importance and (when above threshold) **RAG-grounded** IRS publication citations — free OpenRouter models only.
+- **Fairness-by-design**: synthetic generator emits demographic metadata; metrics are a first-class output (UI wiring in later epics).
+- **FedRAMP-adjacent habits**: privacy headers on auth/validation/ML/RAG files, minimal logging, visible **“100% synthetic data”** banner in the UI.
 
-- Fraud / Risk Score (TensorFlow.js model)
-- Feature importance breakdown
-- Contextual explanations with direct citations from real IRS publications (via RAG using free OpenRouter models)
+## Architecture (Epic 1 scaffold)
 
-All data is **100% synthetic** — no real taxpayer information is used.
+```mermaid
+flowchart LR
+  UI[React + Vite Frontend] -->|JWT + JSON| API[NestJS Backend]
+  API --> Auth[auth module]
+  API --> Tax[tax orchestration]
+  Tax --> Synth[synthetic-data]
+  Tax --> ML[ml: TFJS inference + feature importance]
+  Tax --> RAG[rag: LangChain.js + OpenRouter]
+  RAG --> VS[(MemoryVectorStore<br/>seeded IRS pubs)]
+  ML --> Model[(/models/risk-model)]
+  UI -.->|@irs/shared| Shared[/shared: Zod DTOs/]
+  API -.->|@irs/shared| Shared
+```
 
-## Why This Project?
+Authoritative module narrative: [`memory-bank/systemPatterns.md`](memory-bank/systemPatterns.md) · requirements: [`docs/PRD.md`](docs/PRD.md) · agent workflow: [`CLAUDE.md`](CLAUDE.md).
 
-- Mirrors real IRS priorities: synthetic data, risk scoring, contextual taxpayer services, and transparent AI.
-- Demonstrates end-to-end ownership: NestJS backend, React frontend, ML inference, RAG, Docker, security.
-- Built with modern TypeScript, SOLID principles, and production-like practices (FedRAMP-style notes).
+## Monorepo layout (pnpm)
 
-## Tech Stack
+| Path        | Package         | Role                                              |
+| ----------- | --------------- | ------------------------------------------------- |
+| `backend/`  | `@irs/backend`  | NestJS 11 scaffold + placeholder domain modules   |
+| `frontend/` | `@irs/frontend` | React 19 + Vite + Tailwind v4 + shadcn/ui + Query |
+| `shared/`   | `@irs/shared`   | Shared Zod schemas / types (CJS emit for Node)    |
 
-- **Backend**: NestJS 10+ (TypeScript)
-- **Frontend**: React 19 + Vite + TypeScript + Tailwind CSS v4 + shadcn/ui (latest) + Recharts + TanStack Query
-- **ML**: TensorFlow.js (pure TypeScript inference)
-- **RAG**: LangChain.js + OpenRouter (free Llama 3.3 70B)
-- **Auth**: JWT (demo mode)
-- **DevOps**: Docker + Docker Compose
-- **Monorepo / Package Manager**: pnpm workspaces
-- **Code Quality**: ESLint + Prettier (strict scripts)
+Root tooling: ESLint 9 (flat), Prettier 3, Husky + lint-staged, strict TypeScript base config.
 
-## Frontend Standards (Locked In)
+## Prerequisites
 
-- pnpm-managed workspace setup
-- Tailwind CSS v4 with CSS variable tokens
-- shadcn/ui latest compatible setup
-- `@/*` path alias for frontend imports
-- strict lint/format scripts for CI
-- class-based dark mode support enabled in architecture
-- default runtime theme is light, and UI should expose light mode only for now
+- **Node.js 20+** and **Corepack** (`corepack enable`)
+- **pnpm 9** (declared in root `package.json` → `packageManager`)
+- **Docker Desktop** (optional, for Compose)
 
-## Quick Start
-
-### Prerequisites
-
-- Node.js 20+
-- Docker & Docker Compose
-- OpenRouter API key (free tier)
-
-### 1. Clone & Setup
+## Quick start (local)
 
 ```bash
 git clone <your-repo>
-cd tax-risk-dashboard
+cd irsdashboard
 cp .env.example .env
+pnpm install
+pnpm test          # Jest (backend) + Vitest (frontend + shared), coverage gates
+pnpm lint
+pnpm typecheck
+pnpm --filter @irs/backend run start:dev    # terminal A
+pnpm --filter @irs/frontend run dev        # terminal B → http://localhost:5173
 ```
 
-### 2. Install Dependencies
+Backend default: `http://localhost:3000` · Frontend dev server: `http://localhost:5173`.
+
+## Docker Compose (build-only verified in CI/dev)
+
+Epic 1 validates **`docker compose build`** against pnpm workspaces + multi-stage images.
 
 ```bash
-# Root
-npm install
-
-# Or if using Yarn / PNPM
-# yarn install
-# pnpm install
+docker compose build
+# Optional run (requires OPENROUTER_* only when exercising RAG paths in later epics):
+docker compose up
 ```
 
-### 3. Run with Docker (Recommended)
+- Frontend published at **`http://localhost:5173`** (nginx serving Vite `dist/`).
+- Backend at **`http://localhost:3000`** (Nest `GET /` demo).
+- Compose wires backend **`depends_on`** frontend **after** backend is healthy (static UI can load while API warms).
+
+`VITE_API_BASE_URL` is baked at **image build time** (see `frontend/Dockerfile` build-arg + `docker-compose.yml`). Adjust the compose `args` block if your API origin differs.
+
+## Environment variables
+
+See [`.env.example`](.env.example) — keys mirror [`memory-bank/techContext.md`](memory-bank/techContext.md):
+
+- `OPENROUTER_API_KEY`, `RAG_LLM_MODEL`, `EMBEDDING_MODEL`
+- `PORT`, `FRONTEND_URL`, `JWT_SECRET`, `JWT_EXPIRES_IN`
+- `VITE_API_BASE_URL` (browser → API base)
+
+**Never commit real secrets.** Production should use a secrets manager (see FedRAMP note in `docker-compose.yml`).
+
+## Testing & quality gates
 
 ```bash
-docker compose up --build
+pnpm test           # recursive: coverage-enforced unit/smoke suites
+pnpm lint           # ESLint via workspaces
+pnpm typecheck      # tsc across packages
+pnpm format:check   # Prettier
 ```
 
-Frontend: <http://localhost:5173>  
-Backend + Swagger: <http://localhost:3000/api>
+Backend Jest threshold: **80% statements/functions/lines**, **75% branches** (Nest DI constructor instrumentation — documented in `backend/jest.config.mjs`, revisit with HTTP/E2E coverage in Epic 5).
 
-### 4. Local Development (Alternative)
+## Documentation map
 
-```bash
-# Terminal 1 - Backend
-cd backend
-npm run start:dev
+| Path                       | Purpose                                    |
+| -------------------------- | ------------------------------------------ |
+| `memory-bank/`             | Agent session entry (read first each task) |
+| `docs/PRD.md`              | Full PRD + epic breakdown                  |
+| `docs/dev-log.md`          | Chronological slice decisions              |
+| `docs/roadmap.md`          | Epic status table                          |
+| `docs/bugs-mitigations.md` | Issue log + mitigations                    |
+| `docs/deployment.md`       | Render.com runbook                         |
+| `CLAUDE.md`                | Human-in-the-loop slice contract           |
 
-# Terminal 2 - Frontend
-cd frontend
-npm run dev
-```
+## Governance & Git flow
 
-## Project Structure
+Per [`CLAUDE.md`](CLAUDE.md): feature branches `feat/epic<n>-<story>-slice<m>`, tests green, governance docs + Memory Bank refreshed each slice, **no direct commits to `main`** during active slices (human merges after LGTM).
 
-```
-/
-├── backend/              # NestJS application
-├── frontend/             # React + Vite
-├── shared/               # Shared types & DTOs
-├── data/                 # IRS publication samples
-├── models/               # TensorFlow.js exported model
-├── memory-bank/          # Cursor Memory Bank — agent's persistent context
-│   ├── projectbrief.md   # Foundation: vision + scope
-│   ├── productContext.md # Why it exists, UX goals
-│   ├── systemPatterns.md # Architecture, modules, conventions
-│   ├── techContext.md    # Stack, env, constraints
-│   ├── activeContext.md  # Current focus, recent changes, next step
-│   └── progress.md       # What works, what's left, status
-├── .cursor/
-│   └── rules/            # MDC rules: memory-bank, governance,
-│                         # typescript-strict, frontend, backend, irs-privacy
-├── docs/                 # Canonical / chronological documentation
-│   ├── PRD.md
-│   ├── dev-log.md
-│   ├── bugs-mitigations.md
-│   ├── roadmap.md
-│   └── deployment.md
-├── CLAUDE.md             # LLM coder ruleset (root)
-├── README.md
-├── .env.example
-└── docker-compose.yml
-```
+## License / stance
 
-### Documentation Hierarchy
-
-- **`memory-bank/`** is the agent's start-of-task entry point. Summarized, linked.
-- **`docs/`** is the canonical / chronological record. Authoritative on disagreement.
-- **`CLAUDE.md`** is the workflow contract.
-- **`.cursor/rules/`** encodes operational rules for Cursor agents.
-
-## Key Features
-
-- Synthetic tax data generator with demographic fairness metadata
-- TensorFlow.js risk classification + feature importance
-- RAG-powered IRS Pub explanations (free Llama 3.3)
-- Basic JWT authentication
-- Responsive dashboard with charts
-- Fairness metrics display
-- FedRAMP-style security & privacy notes
-
-## OpenRouter Configuration
-
-Set these in `.env`:
-
-- `OPENROUTER_API_KEY`
-- `RAG_LLM_MODEL=meta-llama/llama-3.3-70b-instruct:free`
-
-## Portfolio / IRS Relevance
-
-This project showcases exactly the skills the IRS is hiring for in 2026:
-
-- Production AI deployment
-- Synthetic data for testing
-- Transparent reasoning with public sources
-- Secure, containerized full-stack development
-
-## Governance & Development Process
-
-See `CLAUDE.md` for strict human-in-the-loop workflow, per-slice testing, and logging requirements.
-
-### 6. `.env.example`
-
-```env
-# ==================== OpenRouter (Required for RAG) ====================
-OPENROUTER_API_KEY=sk-or-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-# RAG Configuration (Free models only)
-RAG_LLM_MODEL=meta-llama/llama-3.3-70b-instruct:free
-EMBEDDING_MODEL=nomic-ai/nomic-embed-text
-
-# ==================== Application Settings ====================
-NODE_ENV=development
-PORT=3000
-
-# Frontend URL (for CORS)
-FRONTEND_URL=http://localhost:5173
-
-# JWT Settings (Demo only - change in production)
-JWT_SECRET=super-secret-jwt-key-for-demo-only-change-in-production
-JWT_EXPIRES_IN=1d
-
-# ==================== Optional ====================
-# MODEL_CACHE_TTL=3600
-# LOG_LEVEL=debug
-```
+Portfolio / educational artifact — **not** an IRS product, **not** tax advice. All demo data is synthetic by policy.

@@ -1,0 +1,10 @@
+**/node_modules
+**/.git
+**/coverage
+**/dist
+**/*.tsbuildinfo
+.env
+.env.*
+!.env.example
+deploy-test-out
+**/.DS_Store
