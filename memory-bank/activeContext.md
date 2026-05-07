@@ -11,7 +11,7 @@
 
 ## Recent Changes
 
-- **2026-05-07** — Epic 1 closed: Nest+Vite+shared scaffolds, pnpm Dockerfiles + Compose reconciliation, README + governance refresh, Jest/Vitest configs with smoke suites + coverage gates (backend branch floor documented).
+- **2026-05-07** — **Merged `feat/epic1-scaffolds-slice2` → `main`** (fast-forward to `3d0f43b`). Removed stray `deploy-test-out/`; added to `.gitignore`. Verification: `pnpm format:check`, `lint`, `typecheck`, `test`, `docker compose config` + `build` all green.
 - **2026-05-07** — Slice 1 landed earlier: root ESLint/Prettier/Husky + workspace stubs.
 - **2026-05-07** — Locked frontend tooling + Memory Bank adoption (see earlier entries / `docs/dev-log.md`).
 
@@ -19,7 +19,7 @@
 
 **Epic 2, Slice 1** — begin synthetic data generator work per `docs/PRD.md`:
 
-1. Branch `feat/epic2-synthetic-data-slice1` from `main` (after Epic 1 merge) per governance convention.
+1. Branch **`feat/epic2-synthetic-generator-slice1`** from current `main` per `CLAUDE.md` (`feat/epic2-<story-short>-slice1`).
 2. Implement generator core inside `backend/src/synthetic-data/` with fairness metadata + tests (≥80% new-code coverage).
 3. Refresh governance docs + Memory Bank (`activeContext`, `progress`) after the slice.
 

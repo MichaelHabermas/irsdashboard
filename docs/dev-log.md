@@ -44,6 +44,7 @@ A full-stack TypeScript monorepo (NestJS + React Vite) demonstrating synthetic t
 
 ## Chronological Progress
 
+- **2026-05-07**: Merged Epic 1 (`feat/epic1-scaffolds-slice2`) into `main` via fast-forward — `main` now includes Nest+Vite scaffolds, Docker/tests, governance refresh; ready for Epic 2.
 - **2026-05-07**: Epic 1 Slice 6 — Smoke tests per workspace: Nest `AppModule` DI compile spec, React `App` render + banner assertion (TanStack Query wrapper), shared Vitest export sanity. Root `pnpm test` fans out to coverage-enabled Jest/Vitest. Backend branch coverage threshold pragmatically **75%** (Nest DI constructor instrumentation) with statements/functions/lines at **80%**; noted inline in `backend/jest.config.mjs` for revisit with HTTP/E2E in Epic 5.
 - **2026-05-07**: Epic 1 Slice 5 — `backend/jest.config.mjs` (thresholds + `@irs/shared` → `shared/dist` mapper + `main.ts` omitted from coverage collection) + backend `pretest` shared build; `frontend/vitest.config.ts` (Tailwind + alias parity with Vite, jsdom, `@testing-library/*`, v8 coverage thresholds); `shared/vitest.config.ts` + `pnpm test` scripts. `@irs/shared` switched to **CommonJS emit** (`verbatimModuleSyntax` off) so Jest/ts-jest resolve cleanly without ESM friction; Vite still consumes TS source via aliases.
 - **2026-05-07**: Epic 1 Slice 4 — README overhaul: IRS framing, FedRAMP/privacy posture, synthetic banner callout, Mermaid architecture diagram (mirrors Memory Bank), pnpm quick start, Docker Compose notes, env table pointers, governance map.

@@ -6,6 +6,8 @@
 **Overall status:** Epic 1 Complete — Starting Epic 2 Next  
 **Last refreshed:** 2026-05-07
 
+- **2026-05-07** — Epic 1 work merged to `main`; repo cleaned (`deploy-test-out` removed, ignore rule). All quality gates + Docker build verified before Epic 2.
+
 ## What Works Today
 
 - Governance + Memory Bank + Cursor rules baseline (see `docs/` + `memory-bank/`).
