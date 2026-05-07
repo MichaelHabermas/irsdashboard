@@ -72,7 +72,7 @@ docker compose up
 
 - Frontend published at **`http://localhost:5173`** (nginx serving Vite `dist/`).
 - Backend at **`http://localhost:3000`** (Nest `GET /` demo).
-- Compose wires backend **`depends_on`** frontend **after** backend is healthy (static UI can load while API warms).
+- Frontend **`depends_on`** the backend with **`condition: service_healthy`** so nginx starts after the API healthcheck passes.
 
 `VITE_API_BASE_URL` is baked at **image build time** (see `frontend/Dockerfile` build-arg + `docker-compose.yml`). Adjust the compose `args` block if your API origin differs.
 

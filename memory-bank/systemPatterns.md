@@ -41,7 +41,7 @@ Each module has a single responsibility:
 
 ## Shared Types
 
-`/shared/` exports DTOs and Zod schemas used by both backend and frontend. **Never duplicate types** across the two sides — import from `@shared/*`.
+`/shared/` exports DTOs and Zod schemas used by both backend and frontend. **Never duplicate types** across the two sides — import from `@irs/shared`.
 
 ## Key Patterns / Conventions
 
@@ -66,7 +66,7 @@ Each module has a single responsibility:
 ## Deployment Patterns
 
 - **Local:** `docker compose up` — backend + frontend containers, multi-stage Dockerfiles.
-- **Cloud:** Render.com free tier via `render.yaml` Blueprint. Backend = Web Service (Docker). Frontend = Static Site. CI/CD on every push to `main`. See [`docs/deployment.md`](../docs/deployment.md).
+- **Cloud:** Render.com free tier via `render.yml` Blueprint. Backend = Web Service (Docker). Frontend = Static Site. CI/CD on every push to `main`. See [`docs/deployment.md`](../docs/deployment.md).
 
 ## Authoritative References
 

@@ -57,7 +57,7 @@ EMBEDDING_MODEL=nomic-ai/nomic-embed-text
    - If tests pass, output the exact file changes / git diff.
    - Stop and wait for human reply: “LGTM – commit & continue”.
 3. Human reviews, commits, then replies “continue”.
-4. LLM merges to main and proceeds to next slice.
+4. Human merges (or lands the PR) to `main`; the LLM then proceeds to the next slice.
 5. Use conventional commits (`feat:`, `fix:`, `refactor:`, `test:`, `docs:`).
 6. Every commit must be atomic, tested, and revertible.
 

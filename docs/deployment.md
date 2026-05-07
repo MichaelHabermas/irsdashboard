@@ -8,13 +8,13 @@ This project is optimized for **Render.com** — the easiest, cheapest (free for
 - Excellent monorepo + Docker support
 - Automatic CI/CD on every `main` push
 - Free HTTPS, custom domains, logs, and basic metrics
-- One-click Blueprint deployment via `render.yaml`
+- One-click Blueprint deployment via `render.yml`
 
 **Note:** Free services sleep after 15 minutes of inactivity (first request may take 30-60s). Perfectly acceptable for a portfolio demo.
 
 ## One-Click Deployment (Recommended)
 
-1. Push your code to GitHub (with `render.yaml` in root).
+1. Push your code to GitHub (with `render.yml` in root).
 2. Go to [Render Dashboard](https://dashboard.render.com) → **New Blueprint**.
 3. Connect your GitHub repo.
 4. Render will automatically detect and create:
@@ -36,7 +36,7 @@ This project is optimized for **Render.com** — the easiest, cheapest (free for
 ### Frontend (Static Site)
 
 - **Root Directory**: `frontend`
-- **Build Command**: `npm run build`
+- **Build Command**: `pnpm run build`
 - **Publish Directory**: `dist`
 - **Environment Variable**:
   - `VITE_API_BASE_URL` → Your backend URL (e.g. `https://your-backend.onrender.com`)
