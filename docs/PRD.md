@@ -10,14 +10,14 @@
 
 | Layer          | Technology                                      | Reason |
 |----------------|-------------------------------------------------|--------|
-| **Monorepo**   | Root workspaces + `/backend` + `/frontend` + `/shared` | Clean separation |
+| **Monorepo / PM** | Root workspaces + `/backend` + `/frontend` + `/shared` managed by pnpm | Clean separation + fast installs |
 | **Backend**    | NestJS 10+ (modular, dependency injection)     | Enterprise-grade, SOLID-friendly |
-| **Frontend**   | React 19 + Vite + TanStack Query + Recharts + Tailwind | Matches your existing skills |
+| **Frontend**   | React 19 + Vite + TypeScript + Tailwind CSS v4 + shadcn/ui (latest) + TanStack Query + Recharts | Modern, production-ready UI stack |
 | **ML Inference**| TensorFlow.js (Node.js) – train once, export, serve in TS | Pure TypeScript, no Python |
 | **RAG**        | LangChain.js + OpenRouter (OpenAI-compatible) + MemoryVectorStore | Flexible free models |
 | **Auth**       | NestJS Passport + simple JWT (in-memory for demo) | Basic auth required |
 | **Data**       | In-memory + JSON files | No DB needed |
-| **Testing**    | Jest (backend) + Vitest (frontend) + Supertest | Smoke & regression per slice |
+| **Testing / Quality** | Jest (backend) + Vitest (frontend) + Supertest + ESLint + Prettier | Smoke/regression + consistent code quality |
 | **DevOps**     | Docker + Docker Compose + multi-stage builds   | Production-like |
 | **RAG Model (default)** | `meta-llama/llama-3.3-70b-instruct:free` | Free, open-weight, strong reasoning |
 | **Embeddings** | Free OpenRouter embedding model (e.g. `nomic-ai/nomic-embed-text`) | Zero cost |
@@ -40,6 +40,8 @@ EMBEDDING_MODEL=nomic-ai/nomic-embed-text
   - `tax` (orchestration controller)
 - Shared types in `/shared`
 - Frontend: feature-sliced design
+- Frontend conventions: Tailwind v4 tokenized theme (CSS variables), `@/*` import alias, strict lint/format scripts
+- UI theming decision pending: dark mode strategy (`class`-based vs light-only)
 - Docker Compose services: backend, frontend
 - FedRAMP-style comments and privacy notes in every relevant file
 

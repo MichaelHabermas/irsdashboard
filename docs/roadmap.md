@@ -1,7 +1,7 @@
 # Project Roadmap & Current Status
 
 **Overall Status:** Planning & Setup Phase  
-**Last Updated:** 2026-05-06
+**Last Updated:** 2026-05-07
 
 ## Epic Progress
 
@@ -17,6 +17,14 @@
 
 ## Next Action
 Start **Epic 1, User Story 1.1, Slice 1** (Monorepo initialization).
+
+## Locked Implementation Choices (2026-05-07)
+- Use `pnpm` workspaces for monorepo package management.
+- Frontend baseline: React + Vite + TypeScript + Tailwind CSS v4 + latest shadcn/ui.
+- Use Tailwind CSS variable tokens for theming.
+- Add strict ESLint/Prettier scripts for local + CI validation.
+- Add `@/*` alias for frontend imports.
+- Open decision: dark mode strategy (`class` mode vs light-only).
 
 ## Blockers
 - None
