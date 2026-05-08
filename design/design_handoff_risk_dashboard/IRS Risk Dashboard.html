@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>IRS-Dash — combined workspace</title>
+<meta name="viewport" content="width=1600,initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin: 0; padding: 0; background: #f0eee9; }
+  body { font-family: 'Inter', -apple-system, system-ui, sans-serif; color: #1a1a1a; }
+  * { box-sizing: border-box; }
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="data.js"></script>
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="shared.jsx"></script>
+<script type="text/babel" src="direction1.jsx"></script>
+<script type="text/babel" src="direction2.jsx"></script>
+<script type="text/babel" src="direction3.jsx"></script>
+<script type="text/babel" src="combined.jsx"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+  const root = ReactDOM.createRoot(document.getElementById('root'));
+  function App() {
+    return (
+      <DesignCanvas>
+        <DCSection
+          id="combined"
+          title="IRS-Dash · combined workspace"
+          subtitle="C's chrome + A's depth. Sidebar navigates for real — Overview, Risk queue (multi-select + bulk actions), Case detail (dial + tabs), Fairness dashboard. Pipeline stubs included.">
+          <DCArtboard id="combined-main" label="★ Combined · multi-page workspace" width={window.C_W} height={window.C_H}>
+            <CombinedApp />
+          </DCArtboard>
+        </DCSection>
+        <DCSection
+          id="originals"
+          title="Original three directions"
+          subtitle="Kept on-canvas for reference. Click any to focus fullscreen.">
+          <DCArtboard id="d3" label="C · Analytics OS (basis)" width={window.D3_W} height={window.D3_H}>
+            <Direction3 />
+          </DCArtboard>
+          <DCArtboard id="d1" label="A · Triage Console (basis)" width={window.D1_W} height={window.D1_H}>
+            <Direction1 />
+          </DCArtboard>
+          <DCArtboard id="d2" label="B · Investigation Brief" width={window.D2_W} height={window.D2_H}>
+            <Direction2 />
+          </DCArtboard>
+        </DCSection>
+        <DCPostIt left={40} top={40} width={260} rotate={-1.5}>
+          <strong>Try the combined workspace</strong><br/>
+          Click sidebar items to navigate. Risk queue → click any row to open the case. Inside a case, switch tabs (Feature attribution / RAG / Fairness). Bulk-select rows in the queue for the action bar.
+        </DCPostIt>
+      </DesignCanvas>
+    );
+  }
+  root.render(<App />);
+</script>
+</body>
+</html>
