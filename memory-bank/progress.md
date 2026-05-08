@@ -3,12 +3,13 @@
 > **What works, what's left to build, current status, known issues.**  
 > Refreshed on `update memory bank` trigger and at major milestones. The chronological per-slice log lives in [`docs/dev-log.md`](../docs/dev-log.md); the canonical epic table lives in [`docs/roadmap.md`](../docs/roadmap.md).
 
-**Overall status:** Epic 6 In Progress (2/12 slices — tokens + app shell)  
+**Overall status:** Epic 6 In Progress (3/12 slices — tokens + shell + overview)  
 **Last refreshed:** 2026-05-08
 
-- **2026-05-08** — Epic 6, Slice 6.1.1: App shell + routing on `feat/epic6-tokens-slice2`. React Router v7, Direction C dark sidebar, top bar, privacy banner, Logo, 10 routes, placeholder pages. Visually verified.
-- **2026-05-08** — Epic 6, Slice 6.1.2: Design tokens + typography. Inter/JetBrains Mono/Source Serif 4 replace Geist. Navy accent + risk band tokens added.
-- **2026-05-07** — Epic 2 synthetic generator + fairness + `/api/synthetic/*` endpoints merged on feature branch; Compose healthcheck aligns with **`/api`**.
+- **2026-05-08** — Epic 6, Slice 6.2.1: Overview page on `feat/epic6-overview-slice1`. KPI row (4 cards + sparklines), headline case (radial dial SVG + stacked bar), top risks table, pipeline panel, fairness mini, shortcuts card. Recharts installed. Mock data layer + TanStack Query stub. 10 smoke tests.
+- **2026-05-08** — Epic 6, Slice 6.1.1: App shell + routing on `feat/epic6-tokens-slice2`. React Router v7, Direction C dark sidebar, top bar, privacy banner, Logo, 10 routes, placeholder pages.
+- **2026-05-08** — Epic 6, Slice 6.1.2: Design tokens + typography. Inter/JetBrains Mono/Source Serif 4. Navy + risk band tokens.
+- **2026-05-07** — Epic 2 synthetic generator + fairness + `/api/synthetic/*` endpoints merged on feature branch.
 
 ## What Works Today
 
@@ -29,7 +30,7 @@
 | 3    | ML Risk Scoring (TensorFlow.js)         | Not Started  | 0 / 4     |
 | 4    | RAG IRS Contextual Explanations         | Not Started  | 0 / 4     |
 | 5    | Backend API & Orchestration             | Not Started  | 0 / 4     |
-| 6    | React Frontend Dashboard                | In Progress  | 2 / 12    |
+| 6    | React Frontend Dashboard                | In Progress  | 3 / 12    |
 | 7    | Docker, Security & Final Polish         | Not Started  | 0 / 4     |
 
 (Slice details in [`docs/PRD.md`](../docs/PRD.md) §5.)

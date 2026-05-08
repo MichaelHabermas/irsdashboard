@@ -51,6 +51,35 @@ describe('App shell (smoke)', () => {
   it('renders top bar with action buttons', () => {
     renderWithRouter();
     expect(screen.getByText('Score new return')).toBeInTheDocument();
-    expect(screen.getByText('Run pipeline')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Run pipeline/ })).toBeInTheDocument();
+  });
+
+  it('renders overview KPI cards', () => {
+    renderWithRouter();
+    expect(screen.getByText('Open in queue')).toBeInTheDocument();
+    expect(screen.getByText('High-risk flags')).toBeInTheDocument();
+    expect(screen.getByText('Avg model latency')).toBeInTheDocument();
+  });
+
+  it('renders the headline case card', () => {
+    renderWithRouter();
+    expect(screen.getByText('Headline case')).toBeInTheDocument();
+    expect(screen.getByText('TR-2024-04812')).toBeInTheDocument();
+  });
+
+  it('renders top risks table', () => {
+    renderWithRouter();
+    expect(screen.getByText(/Top risks/)).toBeInTheDocument();
+  });
+
+  it('renders pipeline and fairness panels', () => {
+    renderWithRouter();
+    expect(screen.getByText(/Pipeline · last run/)).toBeInTheDocument();
+    expect(screen.getByText(/Fairness · 60d/)).toBeInTheDocument();
+  });
+
+  it('renders keyboard shortcuts card', () => {
+    renderWithRouter();
+    expect(screen.getByText('Shortcuts')).toBeInTheDocument();
   });
 });
