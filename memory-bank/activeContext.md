@@ -11,17 +11,18 @@
 
 ## Recent Changes
 
-- **2026-05-08** — **Epic 6, Slice 6.1.2 (tokens + fonts)** on `feat/epic6-tokens-slice2`. Replaced Geist with Inter/JetBrains Mono/Source Serif 4. Overrode `--primary` to navy. Added navy ramp + risk band tokens. Sidebar tokens set to dark-navy design values.
+- **2026-05-08** — **Epic 6, Slice 6.1.1 (app shell + routing)** on `feat/epic6-tokens-slice2`. React Router v7 installed. Direction C dark sidebar, top bar, privacy banner, Logo component, route scaffold with 10 routes, placeholder pages. Visually verified in browser.
+- **2026-05-08** — **Epic 6, Slice 6.1.2 (tokens + fonts)** same branch. Replaced Geist with Inter/JetBrains Mono/Source Serif 4. Overrode `--primary` to navy. Added navy ramp + risk band tokens.
 - **2026-05-07** — Epic 2 complete, Epic 1 merged to `main`.
 
 ## Immediate Next Step
 
-**Epic 6, Slice 6.1.1** — App shell + dark sidebar + routing:
+**Epic 6, Slice 6.2.1** — Overview / dashboard route:
 
-1. Branch **`feat/epic6-shell-slice1`** from current state.
-2. Install React Router v7, set up route scaffold (`/overview`, `/queue`, `/cases`, `/cases/:id`, `/fairness`, etc.).
-3. Build the Direction C dark sidebar component (232px, logo, search input, nav groups, user chip).
-4. Build top breadcrumb bar with privacy banner.
+1. Branch **`feat/epic6-overview-slice1`** from current state.
+2. Build KPI row (4 cards), headline case card (radial dial + stacked contribution bar), top risks table, pipeline panel, fairness mini, shortcuts card.
+3. Stub TanStack Query hooks with mock data (from `design-files/data.js` shapes).
+4. Add Recharts for sparklines.
 5. Tests + governance refresh.
 
 ## Active Decisions / Open Questions

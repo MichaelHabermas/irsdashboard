@@ -1,45 +1,56 @@
-// Privacy posture: 100% synthetic, no real PII.
-// Trust boundary: jsdom render smoke (no network).
-// Data handled: none.
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen } from '@testing-library/react';
-import { TaxReturnSchema } from '@irs/shared';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { createMemoryRouter, RouterProvider } from 'react-router';
+import { describe, expect, it } from 'vitest';
 
-import App from './App';
+import { AppLayout } from '@/components/layout/AppLayout';
+import { OverviewPage } from '@/pages/OverviewPage';
 
-describe('App (smoke)', () => {
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
+function renderWithRouter(initialPath = '/overview') {
+  const router = createMemoryRouter(
+    [
+      {
+        element: <AppLayout />,
+        children: [{ path: 'overview', element: <OverviewPage /> }],
+      },
+    ],
+    { initialEntries: [initialPath] },
+  );
+  const client = new QueryClient();
 
-  it('renders the synthetic-data banner', () => {
-    const client = new QueryClient();
+  return render(
+    <QueryClientProvider client={client}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>,
+  );
+}
 
-    render(
-      <QueryClientProvider client={client}>
-        <App />
-      </QueryClientProvider>,
-    );
-
+describe('App shell (smoke)', () => {
+  it('renders the synthetic-data privacy banner', () => {
+    renderWithRouter();
     expect(screen.getByRole('status')).toHaveTextContent(/100% synthetic data/i);
   });
 
-  it('covers shared workspace check branches', () => {
-    vi.spyOn(TaxReturnSchema, 'safeParse').mockReturnValueOnce({
-      success: false,
-      error: {} as never,
-      data: undefined,
-    });
+  it('renders the sidebar with IRS-Dash branding', () => {
+    renderWithRouter();
+    expect(screen.getByText('IRS-Dash')).toBeInTheDocument();
+  });
 
-    const client = new QueryClient();
+  it('renders the overview page heading', () => {
+    renderWithRouter();
+    expect(screen.getByText(/Good morning/)).toBeInTheDocument();
+  });
 
-    render(
-      <QueryClientProvider client={client}>
-        <App />
-      </QueryClientProvider>,
-    );
+  it('renders sidebar navigation items', () => {
+    renderWithRouter();
+    expect(screen.getByText('Risk queue')).toBeInTheDocument();
+    expect(screen.getByText('Cases')).toBeInTheDocument();
+    expect(screen.getByText('Fairness')).toBeInTheDocument();
+  });
 
-    expect(screen.getByText('FAIL')).toBeInTheDocument();
+  it('renders top bar with action buttons', () => {
+    renderWithRouter();
+    expect(screen.getByText('Score new return')).toBeInTheDocument();
+    expect(screen.getByText('Run pipeline')).toBeInTheDocument();
   });
 });

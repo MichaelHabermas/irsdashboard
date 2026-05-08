@@ -1,11 +1,9 @@
-// Privacy posture: 100% synthetic, no real PII.
-// Trust boundary: browser bootstrap (client-side rendering).
-// Data handled: none at startup (server state managed via TanStack Query later).
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { RouterProvider } from 'react-router';
 
-import App from '@/App.tsx';
+import { router } from '@/router';
 import '@/index.css';
 
 const queryClient = new QueryClient({
@@ -20,7 +18,7 @@ const queryClient = new QueryClient({
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <App />
+      <RouterProvider router={router} />
     </QueryClientProvider>
   </StrictMode>,
 );
