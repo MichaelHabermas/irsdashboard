@@ -42,8 +42,21 @@ A full-stack TypeScript monorepo (NestJS + React Vite) demonstrating synthetic t
 - README.md updated with new project structure and documentation hierarchy.
 - Reason: low-friction agent onboarding, less drift between sessions, consistent rule application via `.cursor/rules/`.
 
+**Decision 6 – Epic 6 Design Handoff & Frontend Direction (2026-05-08)**
+
+- Received high-fidelity design handoff (`design/design_handoff_risk_dashboard/`) with three directions: C (Analytics OS, primary), A (Triage Console, case detail), B (Investigation Brief, export view).
+- Direction C is the primary IA: dark sidebar + light canvas, Linear/Stripe-inspired, command-bar driven.
+- Fonts: Inter Variable (body/headings), JetBrains Mono Variable (numerals/IDs/code), Source Serif 4 (brief headlines/quotes). Replaces Geist.
+- Primary color overridden from greyscale to navy `oklch(0.42 0.13 255)`.
+- Router: React Router v7 (simpler fit than TanStack Router for this dashboard).
+- shadcn style: staying with `base-nova` unless gaps surface.
+- Mock data strategy: stub hooks first, MSW if needed later.
+- Dark mode: light canvas + dark sidebar only for v1.
+- Slice plan: 12 granular slices mapped to design handoff README, starting with 6.1.2 (tokens) then 6.1.1 (shell).
+
 ## Chronological Progress
 
+- **2026-05-08**: **Epic 6, Slice 6.1.2 — Design tokens + typography** (`feat/epic6-tokens-slice2`): Replaced `@fontsource-variable/geist` with `@fontsource-variable/inter`, `@fontsource-variable/jetbrains-mono`, `@fontsource-variable/source-serif-4`. Updated `index.css`: `--font-sans` → Inter Variable, added `--font-mono` (JetBrains Mono Variable) and `--font-serif` (Source Serif 4). Overrode `--primary` from greyscale to navy `oklch(0.42 0.13 255)`. Added navy ramp tokens (`--navy`, `--navy-deep`, `--navy-soft`, `--navy-line`), risk band tokens (`--risk-low/med/high` + `-bg` variants), and `--sidebar-muted-foreground`. Sidebar tokens set to design-spec dark values in both `:root` and `.dark`. All exposed via Tailwind v4 `@theme inline` as `--color-*` utilities. Tests pass, typecheck clean, build succeeds.
 - **2026-05-07**: **Epic 2 — Synthetic Tax Data Generator** (PRD slices 2.1–2.4 on `feat/epic2-synthetic-tax-data`): Expanded `@irs/shared` `TaxReturnSchema` (defaults preserve `{ taxYear }` smoke); `FairnessMetadata` / `SyntheticTaxRecord` / `SyntheticBatchRequestSchema` + `SYNTHETIC_BATCH_MAX`; `@faker-js/faker` builders; `SyntheticTaxDataService` (+ `generateMany`), `SyntheticDataController` (`GET /api/synthetic/generate`, `POST /api/synthetic/generate/batch`); `main.ts` **`setGlobalPrefix('api')`**; Compose **healthcheck** updated to **`GET /api`**; README synthetic API docs + `docs/deployment.md` troubleshooting note; Vitest/Jest + Supertest coverage; `code-simplifier` polish on synthetic module. UI still scaffold — server integration via TanStack Query lands in Epic 6.
 - **2026-05-07**: Merged Epic 1 (`feat/epic1-scaffolds-slice2`) into `main` via fast-forward — `main` now includes Nest+Vite scaffolds, Docker/tests, governance refresh; ready for Epic 2.
 - **2026-05-07**: Epic 1 Slice 6 — Smoke tests per workspace: Nest `AppModule` DI compile spec, React `App` render + banner assertion (TanStack Query wrapper), shared Vitest export sanity. Root `pnpm test` fans out to coverage-enabled Jest/Vitest. Backend branch coverage threshold pragmatically **75%** (Nest DI constructor instrumentation) with statements/functions/lines at **80%**; noted inline in `backend/jest.config.mjs` for revisit with HTTP/E2E in Epic 5.

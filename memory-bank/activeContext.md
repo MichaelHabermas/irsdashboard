@@ -3,35 +3,40 @@
 > **Current work focus, recent changes, immediate next steps, active decisions.**  
 > Refresh this file whenever the focus shifts or on `update memory bank` trigger.
 
-**Last updated:** 2026-05-07
+**Last updated:** 2026-05-08
 
 ## Current Focus
 
-**Phase:** Epic 2 — **complete** (4/4 slices). Next epic: **Epic 3 — ML Risk Scoring (TensorFlow.js)**.
+**Phase:** Epic 6 — **React Frontend Dashboard** (1/12 slices). Building from high-fidelity design handoff.
 
 ## Recent Changes
 
-- **2026-05-07** — **Epic 2 shipped on `feat/epic2-synthetic-tax-data`.** Expanded `TaxReturnSchema`; `FairnessMetadata` + `SyntheticTaxRecord`; `@faker-js/faker` builders + `SyntheticTaxDataService`; `SyntheticDataController` (`GET /api/synthetic/generate`, `POST /api/synthetic/generate/batch`); `SYNTHETIC_BATCH_MAX`; global prefix `/api`; Docker healthcheck **`/api`**; README + deployment notes; governance + EPIC checklist complete; **`code-simplifier`** pass on synthetic module.
-- **2026-05-07** — **Merged Epic 1** into `main` earlier; infra baseline unchanged.
+- **2026-05-08** — **Epic 6, Slice 6.1.2 (tokens + fonts)** on `feat/epic6-tokens-slice2`. Replaced Geist with Inter/JetBrains Mono/Source Serif 4. Overrode `--primary` to navy. Added navy ramp + risk band tokens. Sidebar tokens set to dark-navy design values.
+- **2026-05-07** — Epic 2 complete, Epic 1 merged to `main`.
 
 ## Immediate Next Step
 
-**Epic 3, Slice 1** — Begin ML module + TensorFlow.js classifier skeleton per [`docs/PRD.md`](docs/PRD.md):
+**Epic 6, Slice 6.1.1** — App shell + dark sidebar + routing:
 
-1. Branch **`feat/epic3-ml-classifier-slice1`** from `main` (after Epic 2 merge) following `feat/epic3-<story-short>-slice1`.
-2. Implement ML service scaffolding + TensorFlow.js binary classifier path with tests ≥80% on new lines.
-3. Refresh governance docs + Memory Bank (`activeContext`, `progress`) after the slice.
+1. Branch **`feat/epic6-shell-slice1`** from current state.
+2. Install React Router v7, set up route scaffold (`/overview`, `/queue`, `/cases`, `/cases/:id`, `/fairness`, etc.).
+3. Build the Direction C dark sidebar component (232px, logo, search input, nav groups, user chip).
+4. Build top breadcrumb bar with privacy banner.
+5. Tests + governance refresh.
 
 ## Active Decisions / Open Questions
 
-- **Nest major version:** CLI scaffold produced Nest **11** (PRD cited 10+) — acceptable for portfolio; confirm pin vs upgrade story before production hardening.
-- **Jest branch threshold:** temporarily **75%** global branches — raise toward 80% when Epic 5 adds HTTP/E2E coverage.
+- **shadcn style:** Using `base-nova` — may switch if component gaps surface.
+- **Mock data strategy:** Stub hooks first, MSW later if needed for integration testing.
+- **Dark mode:** Light canvas + dark sidebar only for v1.
+- **Router:** React Router v7 (simpler than TanStack Router for this dashboard).
 
-## Considerations for the Next Epic
+## Considerations for Current Epic
 
-- Keep synthetic-only posture (`irs-privacy` headers); do not ingest real-return shapes.
-- Reuse **`SyntheticTaxRecord`** outputs as future ML pipeline inputs (`tax` orchestration arrives Epic 5).
-- Persist **global `/api` prefix** assumptions in any new HTTP probes (Compose, Render, README).
+- Design handoff: `design/design_handoff_risk_dashboard/README.md` is the source of truth for layout/token specs.
+- Direction C (Analytics OS) is primary IA; Direction A contributes case detail layout; Direction B is optional export view.
+- Privacy banner must appear on every authenticated route.
+- Use `lucide-react` for icons except the bespoke IRS-Dash logo (port from `shared.jsx`).
 
 ## Pointers
 

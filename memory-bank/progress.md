@@ -3,9 +3,10 @@
 > **What works, what's left to build, current status, known issues.**  
 > Refreshed on `update memory bank` trigger and at major milestones. The chronological per-slice log lives in [`docs/dev-log.md`](../docs/dev-log.md); the canonical epic table lives in [`docs/roadmap.md`](../docs/roadmap.md).
 
-**Overall status:** Epic 2 Complete — Starting Epic 3 Next  
-**Last refreshed:** 2026-05-07
+**Overall status:** Epic 6 In Progress (1/12 slices — tokens + fonts)  
+**Last refreshed:** 2026-05-08
 
+- **2026-05-08** — Epic 6, Slice 6.1.2: Design tokens + typography landed on `feat/epic6-tokens-slice2`. Inter/JetBrains Mono/Source Serif 4 replace Geist. Navy accent + risk band tokens added.
 - **2026-05-07** — Epic 2 synthetic generator + fairness + `/api/synthetic/*` endpoints merged on feature branch; Compose healthcheck aligns with **`/api`**.
 
 ## What Works Today
@@ -27,7 +28,7 @@
 | 3    | ML Risk Scoring (TensorFlow.js)         | Not Started  | 0 / 4     |
 | 4    | RAG IRS Contextual Explanations         | Not Started  | 0 / 4     |
 | 5    | Backend API & Orchestration             | Not Started  | 0 / 4     |
-| 6    | React Frontend Dashboard                | Not Started  | 0 / 4     |
+| 6    | React Frontend Dashboard                | In Progress  | 1 / 12    |
 | 7    | Docker, Security & Final Polish         | Not Started  | 0 / 4     |
 
 (Slice details in [`docs/PRD.md`](../docs/PRD.md) §5.)

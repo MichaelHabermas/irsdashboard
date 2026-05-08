@@ -1,7 +1,7 @@
 # Project Roadmap & Current Status
 
-**Overall Status:** Epic 2 Complete (4/4 slices) — Ready for Epic 3  
-**Last Updated:** 2026-05-07
+**Overall Status:** Epic 6 In Progress (1/12 slices) — tokens + fonts landed  
+**Last Updated:** 2026-05-08
 
 ## Epic Progress
 
@@ -12,12 +12,12 @@
 | 3    | ML Risk Scoring (TensorFlow.js)         | Not Started  | 0/4              | 4            | -                                                                   |
 | 4    | RAG IRS Contextual Explanations         | Not Started  | 0/4              | 4            | -                                                                   |
 | 5    | Backend API & Orchestration             | Not Started  | 0/4              | 4            | -                                                                   |
-| 6    | React Frontend Dashboard                | Not Started  | 0/4              | 4            | -                                                                   |
+| 6    | React Frontend Dashboard                | In Progress  | 1/12             | 12           | Design handoff received; slice 6.1.2 (tokens) done                  |
 | 7    | Docker, Security & Final Polish         | Not Started  | 0/4              | 4            | -                                                                   |
 
 ## Next Action
 
-Start **Epic 3 — ML Risk Scoring (TensorFlow.js)** (Slice 1 per `docs/PRD.md`).
+Continue **Epic 6 — React Frontend Dashboard**: Slice 6.1.1 (app shell, sidebar, routing).
 
 ## Locked Implementation Choices (2026-05-07)
 
